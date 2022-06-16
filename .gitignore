@@ -137,3 +137,4 @@ dmypy.json
 
 # private_files
 data/lesion_df.csv
+/clean_df.ipynb
