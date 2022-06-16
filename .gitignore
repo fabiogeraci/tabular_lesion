@@ -79,6 +79,7 @@ target/
 .ipynb_checkpoints/*
 .idea
 .idea/*
+*.ipynb
 
 
 # IPython
@@ -134,4 +135,4 @@ dmypy.json
 .pyre/
 
 # private_files
-lesion_df.csv
+data/lesion_df.csv
