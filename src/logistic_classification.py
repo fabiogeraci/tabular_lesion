@@ -112,6 +112,11 @@ class DataVariance:
 
     @staticmethod
     def generate_variance_mask(x_set: pd.DataFrame) -> np.array:
+        """
+        Generate a mask with the high variance columns
+        :param x_set: input features set
+        :return: an array with True for high variance and False for low variance features
+        """
         variance_threshold = VarianceThreshold(threshold=0.005)
         transformer = MaxAbsScaler().fit(x_set)
         _set = transformer.transform(x_set)
@@ -119,10 +124,16 @@ class DataVariance:
         return variance_threshold.get_support()
 
     def apply_variance(self):
+        """
+        Filters out the low variance features
+        """
         self.X_train_trans = self.all_set.X_train[self.all_set.X_train.columns[(self.variance_mask)]]
         self.X_test_trans = self.all_set.X_test[self.all_set.X_test.columns[(self.variance_mask)]]
 
     def resample_dataset(self):
+        """
+        Over samples the sets
+        """
         smote = ADASYN(random_state=2022, sampling_strategy='minority', n_jobs=4)
         if self.variance_flag:
             self.X_train, self.y_train = smote.fit_resample(self.X_train_trans, self.all_set.y_train.values.ravel())
