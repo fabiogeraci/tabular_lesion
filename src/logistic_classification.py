@@ -39,7 +39,9 @@ class WorkingSet:
         self.generate_test_set()
 
     def generate_train_set(self):
-
+        """
+        Generate the training set
+        """
         df_train = self.imported_dataframe[self.imported_dataframe['Inf_Train_test'].str.contains('train', case=False)]
         df_valid = self.imported_dataframe[self.imported_dataframe['Inf_Train_test'].str.contains('valid', case=False)]
 
@@ -59,6 +61,9 @@ class WorkingSet:
         self.y_train = self.training_df['Target_Lesion_ClinSig']
 
     def generate_test_set(self):
+        """
+        Generate the test set
+        """
         df_test = self.imported_dataframe[self.imported_dataframe['Inf_Train_test'].str.contains('test', case=False)]
         self.X_test = df_test.drop(['Target_Lesion_ClinSig', 'Inf_Train_test'], axis=1)
         self.X_test = self.drop_all_zero_columns(self.X_test)
@@ -75,15 +80,23 @@ class WorkingSet:
 
 
 def apply_variance_threshold(x_set: pd.DataFrame) -> np.array:
-    variance_threshold = VarianceThreshold(threshold=0.2)
-    variance_threshold.fit(x_set)
-    return variance_threshold.transform(x_set)
+    """
+    Eleminates features with a variance below 0.005
+    :param x_set:
+    :return:
+    """
+    variance_threshold = VarianceThreshold(threshold=0.005)
+
+    transformer = MaxAbsScaler().fit(x_set)
+    _set = transformer.transform(x_set)
+    variance_threshold.fit(_set)
+    return variance_threshold.transform(_set)
 
 
 class DataVariance:
-    def __init__(self, all_set, variance_flag: bool = False):
-        self.all_set = all_set
-        self.variance_flag = variance_flag
+    def __init__(self, a_set, a_variance_flag: bool = False):
+        self.all_set = a_set
+        self.variance_flag = a_variance_flag
         self.X_train_trans = None
         self.X_train = None
         self.y_train = None
@@ -91,10 +104,13 @@ class DataVariance:
         self.initialize()
 
     def initialize(self):
-        self.make_variance()
+        self.apply_variance()
         self.resample_dataset()
 
-    def make_variance(self):
+    def apply_variance(self):
+        """
+        Apply variance scree
+        """
         self.X_train_trans = apply_variance_threshold(self.all_set.X_train)
         self.X_test_trans = apply_variance_threshold(self.all_set.X_test)
 
@@ -115,16 +131,18 @@ class RocCurve:
 
     def initialize(self):
 
-        # if self.variance != None:
         fpr_lr_train, tpr_lr_train, roc_auc_lr_train = self.generate_score(self.variance.X_train, self.variance.y_train)
         fpr_lr_test, tpr_lr_test, roc_auc_lr_test = self.generate_score(self.variance.X_test_trans, self.a_dataset.y_test.values.ravel())
-        # else:
-        #     fpr_lr_train, tpr_lr_train, roc_auc_lr_train = self.generate_score(self.all_set.X_train.values, self.all_set.y_train.values.ravel())
-        #     fpr_lr_test, tpr_lr_test, roc_auc_lr_test = self.generate_score(self.all_set.X_test.values, self.all_set.y_test.values.ravel())
 
         self.plot_roc_curve(fpr_lr_train, tpr_lr_train, roc_auc_lr_train, fpr_lr_test, tpr_lr_test, roc_auc_lr_test)
 
     def generate_score(self, x_set, y_set):
+        """
+
+        :param x_set:
+        :param y_set:
+        :return:
+        """
         y_scores = self.model.predict(x_set)
 
         fpr_lr, tpr_lr, _ = roc_curve(y_set, y_scores)
@@ -134,7 +152,15 @@ class RocCurve:
 
     @staticmethod
     def plot_roc_curve(fpr_lr_train, tpr_lr_train, roc_auc_lr_train, fpr_lr_test, tpr_lr_test, roc_auc_lr_test):
+        """
 
+        :param fpr_lr_train:
+        :param tpr_lr_train:
+        :param roc_auc_lr_train:
+        :param fpr_lr_test:
+        :param tpr_lr_test:
+        :param roc_auc_lr_test:
+        """
         fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 7))
         ax1.set_title('ROC curve Train', fontsize=16)
         ax1.plot(fpr_lr_train, tpr_lr_train, lw=3, label=f'LogRegr ROC curve (area = {roc_auc_lr_train:0.2f})')
