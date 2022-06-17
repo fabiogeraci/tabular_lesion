@@ -79,7 +79,7 @@ class WorkingSet:
         return a_dataframe.loc[:, a_dataframe.std() < 10000]
 
 
-def apply_variance_threshold(x_set: pd.DataFrame) -> np.array:
+def variance_threshold(x_set: pd.DataFrame) -> np.array:
     """
     Eleminates features with a variance below 0.005
     :param x_set:
@@ -90,29 +90,37 @@ def apply_variance_threshold(x_set: pd.DataFrame) -> np.array:
     transformer = MaxAbsScaler().fit(x_set)
     _set = transformer.transform(x_set)
     variance_threshold.fit(_set)
+    variance_threshold.get_support()
     return variance_threshold.transform(_set)
 
 
 class DataVariance:
-    def __init__(self, a_set, a_variance_flag: bool = False):
-        self.all_set = a_set
-        self.variance_flag = a_variance_flag
+    def __init__(self, all_set, variance_flag: bool = False):
+        self.all_set = all_set
+        self.variance_flag = variance_flag
         self.X_train_trans = None
+        self.X_test_trans = None
         self.X_train = None
         self.y_train = None
-        self.X_test_trans = None
+        self.variance_mask = None
         self.initialize()
 
     def initialize(self):
+        self.variance_mask = self.generate_variance_mask(self.all_set.X_train)
         self.apply_variance()
         self.resample_dataset()
 
+    @staticmethod
+    def generate_variance_mask(x_set: pd.DataFrame) -> np.array:
+        variance_threshold = VarianceThreshold(threshold=0.005)
+        transformer = MaxAbsScaler().fit(x_set)
+        _set = transformer.transform(x_set)
+        variance_threshold.fit(_set)
+        return variance_threshold.get_support()
+
     def apply_variance(self):
-        """
-        Apply variance scree
-        """
-        self.X_train_trans = apply_variance_threshold(self.all_set.X_train)
-        self.X_test_trans = apply_variance_threshold(self.all_set.X_test)
+        self.X_train_trans = self.all_set.X_train[self.all_set.X_train.columns[(self.variance_mask)]]
+        self.X_test_trans = self.all_set.X_test[self.all_set.X_test.columns[(self.variance_mask)]]
 
     def resample_dataset(self):
         smote = ADASYN(random_state=2022, sampling_strategy='minority', n_jobs=4)
@@ -179,7 +187,7 @@ class RocCurve:
 def plot_class_balance(all_set: WorkingSet):
     df_clinically_Sig = pd.DataFrame(all_set.training_df[all_set.target_name].value_counts())
     df_clinically_Sig.reset_index(inplace=True)
-    df_clinically_Sig = df_clinically_Sig.rename(column={'index': 'Clinically_Sig'})
+    df_clinically_Sig = df_clinically_Sig.rename(columns={'index': 'Clinically_Sig'})
     df_clinically_Sig = df_clinically_Sig.rename(columns={all_set.target_name: 'Count'})
 
     fig = px.bar(df_clinically_Sig, x='Clinically_Sig', y='Count', color=('blue', 'red'), text='Count', title='Class Balance')
@@ -198,7 +206,8 @@ def make_feature_union():
     transforms.append(('norm', Normalizer()))
     transforms.append(('pt', PowerTransformer()))
     transforms.append(('st', SplineTransformer()))
-    return FeatureUnion(transforms)
+    feature_transform = FeatureUnion(transforms)
+    return feature_transform
 
 
 def make_logistic_classifier():
@@ -219,10 +228,11 @@ def make_logistic_classifier():
     return model, lr_param_grid
 
 
-def make_pipeline(a_model):
+def make_pipeline(a_model, a_feature_transform):
+
     # define the pipeline
     steps = list()
-    steps.append(('scaler', make_feature_union))
+    steps.append(('scaler', a_feature_transform))
     steps.append(('classifier', a_model))
 
     return Pipeline(steps=steps)
@@ -230,7 +240,7 @@ def make_pipeline(a_model):
 
 if __name__ == '__main__':
 
-    all_set = WorkingSet(os.path.join('data', 'lesion_df_balanced_Target_Lesion_ClinSig.csv'))
+    all_set = WorkingSet(os.path.join('..', 'data', 'lesion_df_balanced_Target_Lesion_ClinSig.csv'))
     plot_class_balance(all_set)
 
     assert all_set.X_train.shape[0] == all_set.y_train.shape[0]
@@ -239,7 +249,10 @@ if __name__ == '__main__':
     variance_flag = True
     data = DataVariance(all_set, variance_flag)
     model, lr_param_grid = make_logistic_classifier()
-    pipeline = make_pipeline(model)
+
+    feature_transform = make_feature_union()
+
+    pipeline = make_pipeline(model, feature_transform)
     LR_search = GridSearchCV(pipeline, param_grid=lr_param_grid, refit=True, verbose=1, cv=10, n_jobs=4)
     LR_search.fit(data.X_train, data.y_train)
 
