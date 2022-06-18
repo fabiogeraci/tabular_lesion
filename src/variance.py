@@ -43,8 +43,9 @@ class DataVariance:
         :return:
         """
         variance_threshold = VarianceThreshold(threshold=0.005)
-        transformer = MaxAbsScaler().fit(x_set)
-        _set = transformer.transform(x_set)
+        scaler = MaxAbsScaler()
+        scaler.fit(x_set)
+        _set = scaler.transform(x_set)
         variance_threshold.fit(_set)
         return variance_threshold.get_support()
 
