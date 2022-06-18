@@ -7,14 +7,13 @@ from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay, classifica
 
 
 class RocCurve:
-    def __init__(self, model: sklearn, a_data: DataVariance = None, a_scaler = None):
+    def __init__(self, model: sklearn, a_data: DataVariance = None, a_scaler=None):
         self.model = model
         self.scaler = a_scaler
         self.data = a_data
         self.initialize()
 
     def initialize(self):
-
         fpr_lr_train, tpr_lr_train, roc_auc_lr_train = self.generate_score(self.data.X_train, self.data.y_train)
         fpr_lr_test, tpr_lr_test, roc_auc_lr_test = self.generate_score(self.data.X_test, self.data.y_test.values.ravel())
 

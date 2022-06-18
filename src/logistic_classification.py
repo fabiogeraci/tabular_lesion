@@ -123,4 +123,5 @@ if __name__ == '__main__':
     print('Mean Accuracy: %.3f' % LR_search.best_score_)
     print('Config: %s' % LR_search.best_params_)
 
-    RocCurve(LR_search.best_estimator_, data)
+    scaler = pipeline['scaler']
+    RocCurve(LR_search.best_estimator_, data, scaler)
