@@ -33,14 +33,15 @@ print(sklearn.__version__)
 def plot_class_balance(a_dataset: DataSet):
     """
     
-    :param a_y_set: 
+    :param a_dataset:
     """
     target_series = pd.DataFrame(a_dataset.training_df[a_dataset.target_name].value_counts())
     target_series.reset_index(inplace=True)
     target_series = target_series.rename(columns={'index': 'Clinically_Sig'})
     target_series = target_series.rename(columns={a_dataset.target_name: 'Count'})
 
-    fig = px.bar(target_series, x='Clinically_Sig', y='Count', color=('blue', 'red'), text='Count', title='Class Balance')
+    fig = px.bar(target_series, x='Clinically_Sig', y='Count', color=('blue', 'red'), text='Count', title='Class Balance',
+                 width=800, height=400)
     fig.update_layout(showlegend=False)
     # fig.show(renderer="colab")
 
@@ -60,8 +61,8 @@ def make_feature_union():
     transforms.append(('norm', Normalizer()))
     transforms.append(('pt', PowerTransformer()))
     transforms.append(('st', SplineTransformer()))
-    feature_transform = FeatureUnion(transforms)
-    return feature_transform
+    transform_feature = FeatureUnion(transforms)
+    return transform_feature
 
 
 def make_logistic_classifier():
@@ -69,7 +70,7 @@ def make_logistic_classifier():
 
     :return:
     """
-    model = LogisticRegression(random_state=2022,
+    lr_model = LogisticRegression(random_state=2022,
                                max_iter=100000,
                                penalty='elasticnet',
                                solver='saga',
@@ -78,12 +79,12 @@ def make_logistic_classifier():
                                multi_class='auto',
                                tol=1e-4
                                )
-    lr_param_grid = {
+    param_grid = {
         'classifier__l1_ratio': [0.2, 0.225, 0.25],
         'classifier__C': [0.0001, 0.0005, 0.001, 0.005, 0.01]
     }
 
-    return model, lr_param_grid
+    return lr_model, param_grid
 
 
 def make_pipeline(a_model, a_feature_transform):

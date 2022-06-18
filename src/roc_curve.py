@@ -20,7 +20,7 @@ class RocCurve:
         self.plot_roc_curve(fpr_lr_train, tpr_lr_train, roc_auc_lr_train, fpr_lr_test, tpr_lr_test, roc_auc_lr_test)
 
     def generate_score(self, x_set, y_set):
-        y_scores = self.model.predict(self.scaler.transform(x_set))
+        y_scores = self.model.predict(x_set)
 
         fpr_lr, tpr_lr, _ = roc_curve(y_set, y_scores)
         roc_auc_lr = auc(fpr_lr, tpr_lr)
