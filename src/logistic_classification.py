@@ -46,6 +46,31 @@ def plot_class_balance(a_dataset: DataSet):
     # fig.show(renderer="colab")
 
 
+class Model:
+    def __init__(self):
+        self.classifier = None
+        self.param_grid = None
+
+    def make_logistic_classifier(self):
+        """
+
+        :return:
+        """
+        self.classifier = LogisticRegression(random_state=2022,
+                                   max_iter=100000,
+                                   penalty='elasticnet',
+                                   solver='saga',
+                                   n_jobs=6,
+                                   warm_start=True,
+                                   multi_class='auto',
+                                   tol=1e-4
+                                   )
+        self.param_grid = {
+            'classifier__l1_ratio': [0.2, 0.225, 0.25],
+            'classifier__C': [0.0001, 0.0005, 0.001, 0.005, 0.01]
+        }
+
+
 def make_feature_union():
     """
 
@@ -63,28 +88,6 @@ def make_feature_union():
     transforms.append(('st', SplineTransformer()))
     transform_feature = FeatureUnion(transforms)
     return transform_feature
-
-
-def make_logistic_classifier():
-    """
-
-    :return:
-    """
-    lr_model = LogisticRegression(random_state=2022,
-                               max_iter=100000,
-                               penalty='elasticnet',
-                               solver='saga',
-                               n_jobs=6,
-                               warm_start=True,
-                               multi_class='auto',
-                               tol=1e-4
-                               )
-    param_grid = {
-        'classifier__l1_ratio': [0.2, 0.225, 0.25],
-        'classifier__C': [0.0001, 0.0005, 0.001, 0.005, 0.01]
-    }
-
-    return lr_model, param_grid
 
 
 def make_pipeline(a_model, a_feature_transform):
@@ -111,12 +114,12 @@ if __name__ == '__main__':
 
     variance_flag = True
     data = DataVariance(all_set, variance_flag)
-    model, lr_param_grid = make_logistic_classifier()
+    model = Model()
 
     feature_transform = make_feature_union()
 
-    pipeline = make_pipeline(model, feature_transform)
-    LR_search = GridSearchCV(pipeline, param_grid=lr_param_grid, refit=True, verbose=1, cv=10, n_jobs=4)
+    pipeline = make_pipeline(model.classifier, feature_transform)
+    LR_search = GridSearchCV(pipeline, param_grid=model.param_grid, refit=True, verbose=1, cv=10, n_jobs=4)
     LR_search.fit(data.X_train, data.y_train)
 
     print(LR_search.best_params_)
