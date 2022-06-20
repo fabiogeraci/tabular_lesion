@@ -23,6 +23,7 @@ from mlxtend.plotting import plot_learning_curves
 import matplotlib.pyplot as plt
 from dataset import DataSet
 from variance import DataVariance
+from feature_select import Selector
 from roc_curve import RocCurve
 
 import warnings
@@ -113,7 +114,12 @@ if __name__ == '__main__':
     assert all_set.X_test.shape[0] == all_set.y_test.shape[0]
 
     variance_flag = True
-    data = DataVariance(all_set, variance_flag)
+    data = DataVariance(all_set, variance_flag, LogisticRegression())
+
+    # log_reg = LogisticRegression()
+    # model_selector = Selector(log_reg)
+    # selector = model_selector.selector_model.fit(data.X_train, data.y_train)
+
     model = Model()
 
     feature_transform = make_feature_union()
@@ -128,4 +134,4 @@ if __name__ == '__main__':
     print('Config: %s' % LR_search.best_params_)
 
     scaler = pipeline['scaler']
-    RocCurve(LR_search.best_estimator_, data, scaler)
+    RocCurve(LR_search.best_estimator_, data)
