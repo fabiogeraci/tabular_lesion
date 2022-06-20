@@ -1,20 +1,15 @@
 import warnings
-
-warnings.filterwarnings('ignore')
-
 import os
 import numpy as np
 import pandas as pd
 import plotly.express as px
 import copy
-
-import sklearn
-
-print(sklearn.__version__)
-
 from sklearn.preprocessing import MaxAbsScaler
 from sklearn.feature_selection import SelectFromModel, SelectKBest, chi2, VarianceThreshold
 from imblearn.over_sampling import SMOTE, ADASYN, BorderlineSMOTE, KMeansSMOTE, SMOTEN, SMOTENC, SVMSMOTE
+import sklearn
+warnings.filterwarnings('ignore')
+print(sklearn.__version__)
 
 
 class DataVariance:

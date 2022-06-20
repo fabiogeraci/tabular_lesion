@@ -47,8 +47,18 @@ class DataSet:
 
     @staticmethod
     def drop_all_zero_columns(a_dataframe: pd.DataFrame) -> pd.DataFrame:
+        """
+
+        :param a_dataframe:
+        :return:
+        """
         return a_dataframe.loc[:, a_dataframe.ne(0).any()]
 
     @staticmethod
     def drop_columns_std_larger(a_dataframe: pd.DataFrame) -> pd.DataFrame:
+        """
+
+        :param a_dataframe:
+        :return:
+        """
         return a_dataframe.loc[:, a_dataframe.std() < 10000]
