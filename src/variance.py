@@ -8,14 +8,16 @@ from sklearn.preprocessing import MaxAbsScaler
 from sklearn.feature_selection import SelectFromModel, SelectKBest, chi2, VarianceThreshold
 from imblearn.over_sampling import SMOTE, ADASYN, BorderlineSMOTE, KMeansSMOTE, SMOTEN, SMOTENC, SVMSMOTE
 import sklearn
+from feature_select import Selector
+
 warnings.filterwarnings('ignore')
-print(sklearn.__version__)
 
 
 class DataVariance:
-    def __init__(self, all_set, variance_flag: bool = False):
+    def __init__(self, all_set, variance_flag: bool = False, selector_model: sklearn = None):
         self.all_set = all_set
         self.variance_flag = variance_flag
+        self.selector_model = selector_model
         self.X_train_trans = None
         self.X_test_trans = None
         self.X_train = None
@@ -28,6 +30,7 @@ class DataVariance:
     def initialize(self):
         self.variance_mask = self.generate_variance_mask(self.all_set.X_train)
         self.apply_variance()
+        self.apply_genetic()
         self.resample_dataset()
 
     @staticmethod
@@ -48,8 +51,23 @@ class DataVariance:
         """
 
         """
-        self.X_train_trans = self.all_set.X_train[self.all_set.X_train.columns[(self.variance_mask)]]
-        self.X_test_trans = self.all_set.X_test[self.all_set.X_test.columns[(self.variance_mask)]]
+        self.X_train_trans = self.all_set.X_train[self.all_set.X_train.columns[self.variance_mask]]
+        self.X_test_trans = self.all_set.X_test[self.all_set.X_test.columns[self.variance_mask]]
+
+    def genetic_feature(self) -> np.array:
+        """
+
+        :return:
+        """
+        model_selector = Selector(self.selector_model)
+        return model_selector.selector_model.fit(self.X_train_trans, self.all_set.y_train)
+
+    def apply_genetic(self):
+        """
+
+        """
+        self.X_train_trans = self.all_set.X_train[self.all_set.X_train.columns[self.genetic_feature()]]
+        self.X_test_trans = self.all_set.X_test[self.all_set.X_test.columns[self.genetic_feature()]]
 
     def resample_dataset(self):
         """

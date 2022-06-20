@@ -7,9 +7,8 @@ from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay, classifica
 
 
 class RocCurve:
-    def __init__(self, model: sklearn, a_data: DataVariance = None, a_scaler=None):
+    def __init__(self, model: sklearn, a_data: DataVariance = None):
         self.model = model
-        self.scaler = a_scaler
         self.data = a_data
         self.initialize()
 

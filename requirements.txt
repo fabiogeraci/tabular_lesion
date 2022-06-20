@@ -4,3 +4,5 @@ scikit-learn-intelex
 pytorch-tabular
 xgboost
 imbalanced-learn
+mitosheet
+sklearn-genetic
