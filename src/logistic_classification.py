@@ -44,7 +44,8 @@ def plot_class_balance(a_dataset: DataSet):
     fig = px.bar(target_series, x='Clinically_Sig', y='Count', color=('blue', 'red'), text='Count', title='Class Balance',
                  width=800, height=400)
     fig.update_layout(showlegend=False)
-    # fig.show(renderer="colab")
+    plt.show(block=True)
+    fig.show(block=True)#renderer="colab")
 
 
 class Model:
@@ -81,13 +82,13 @@ def make_feature_union():
     # transforms for the feature union
     transforms = list()
     transforms.append(('maxbbs', MaxAbsScaler()))
-    transforms.append(('mms', MinMaxScaler()))
-    transforms.append(('ss', StandardScaler()))
-    transforms.append(('rs', RobustScaler()))
-    transforms.append(('qt', QuantileTransformer(n_quantiles=100, output_distribution='normal')))
-    transforms.append(('norm', Normalizer()))
-    transforms.append(('pt', PowerTransformer()))
-    transforms.append(('st', SplineTransformer()))
+    # transforms.append(('mms', MinMaxScaler()))
+    # transforms.append(('ss', StandardScaler()))
+    # transforms.append(('rs', RobustScaler()))
+    # transforms.append(('qt', QuantileTransformer(n_quantiles=100, output_distribution='normal')))
+    # transforms.append(('norm', Normalizer()))
+    # transforms.append(('pt', PowerTransformer()))
+    # transforms.append(('st', SplineTransformer()))
     transform_feature = FeatureUnion(transforms)
     return transform_feature
 
