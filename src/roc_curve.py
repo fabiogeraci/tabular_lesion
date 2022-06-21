@@ -57,3 +57,5 @@ class RocCurve:
         ax2.set_ylabel('True Positive Rate', fontsize=16)
         ax2.legend(loc='lower right', fontsize=13)
         ax2.plot([0, 1], [0, 1], color='navy', lw=3, linestyle='--')
+        plt.interactive(False)
+        plt.show(block=True)
