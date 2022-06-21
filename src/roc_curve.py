@@ -1,4 +1,5 @@
 import sklearn
+import pandas as pd
 import matplotlib.pyplot as plt
 from variance import DataVariance
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay, classification_report, \
@@ -19,6 +20,8 @@ class RocCurve:
         fpr_lr_train, tpr_lr_train, roc_auc_lr_train = self.generate_score(self.data.X_train, self.data.y_train)
         fpr_lr_test, tpr_lr_test, roc_auc_lr_test = self.generate_score(self.data.X_test, self.data.y_test.values.ravel())
 
+        self.write_columns_to_csv(roc_auc_lr_train, roc_auc_lr_test)
+
         self.plotly_roc_curve(fpr_lr_train, tpr_lr_train, roc_auc_lr_train, fpr_lr_test, tpr_lr_test, roc_auc_lr_test)
 
     def generate_score(self, x_set, y_set):
@@ -34,6 +37,13 @@ class RocCurve:
         roc_auc_lr = auc(fpr_lr, tpr_lr)
 
         return fpr_lr, tpr_lr, roc_auc_lr
+
+    def write_columns_to_csv(self, roc_auc_train: float, roc_auc_test: float):
+        """
+
+        """
+        df = pd.DataFrame(self.data.X_train.columns, columns=['Feature'])
+        df.to_csv(f'columns_{roc_auc_train:.3f}_{roc_auc_test:.3f}.csv', index=False)
 
     @staticmethod
     def plot_roc_curve(fpr_lr_train, tpr_lr_train, roc_auc_lr_train, fpr_lr_test, tpr_lr_test, roc_auc_lr_test):

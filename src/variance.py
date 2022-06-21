@@ -34,7 +34,6 @@ class DataVariance:
         self.apply_variance()
         self.apply_genetic()
         self.resample_dataset()
-        self.write_columns_to_csv()
 
     @staticmethod
     def generate_variance_mask(x_set: pd.DataFrame) -> np.array:
@@ -73,13 +72,6 @@ class DataVariance:
 
         self.X_train_trans = self.X_train_trans[self.X_train_trans.columns[self.selector_mask.support_]]
         self.X_test_trans = self.X_test_trans[self.X_test_trans.columns[self.selector_mask.support_]]
-
-    def write_columns_to_csv(self):
-        """
-
-        """
-        df = pd.DataFrame(self.X_train_trans.columns)
-        df.to_csv('columns.csv', index=False)
 
     def resample_dataset(self):
         """
