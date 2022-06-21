@@ -4,6 +4,9 @@ from variance import DataVariance
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay, classification_report, \
     accuracy_score, f1_score, roc_auc_score, roc_curve, auc, \
     precision_recall_curve
+import plotly.express as px
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 
 
 class RocCurve:
@@ -16,7 +19,7 @@ class RocCurve:
         fpr_lr_train, tpr_lr_train, roc_auc_lr_train = self.generate_score(self.data.X_train, self.data.y_train)
         fpr_lr_test, tpr_lr_test, roc_auc_lr_test = self.generate_score(self.data.X_test, self.data.y_test.values.ravel())
 
-        self.plot_roc_curve(fpr_lr_train, tpr_lr_train, roc_auc_lr_train, fpr_lr_test, tpr_lr_test, roc_auc_lr_test)
+        self.plotly_roc_curve(fpr_lr_train, tpr_lr_train, roc_auc_lr_train, fpr_lr_test, tpr_lr_test, roc_auc_lr_test)
 
     def generate_score(self, x_set, y_set):
         """
@@ -57,5 +60,33 @@ class RocCurve:
         ax2.set_ylabel('True Positive Rate', fontsize=16)
         ax2.legend(loc='lower right', fontsize=13)
         ax2.plot([0, 1], [0, 1], color='navy', lw=3, linestyle='--')
-        plt.interactive(False)
+
         plt.show(block=True)
+
+    @staticmethod
+    def plotly_roc_curve(fpr_lr_train, tpr_lr_train, roc_auc_lr_train,
+                         fpr_lr_test, tpr_lr_test, roc_auc_lr_test):
+
+        roc = {'train': [fpr_lr_train, tpr_lr_train, roc_auc_lr_train],
+               'test': [fpr_lr_test, tpr_lr_test, roc_auc_lr_test]}
+
+        fig = go.Figure()
+        fig.add_shape(
+            type='line', line=dict(dash='dash'),
+            x0=0, x1=1, y0=0, y1=1
+        )
+        name = f"ROC Train (AUC={roc['train'][2]:.2f})"
+        fig.add_trace(go.Scatter(x=roc['train'][0], y=roc['train'][1], name=name, mode='lines'))
+
+        name = f"ROC Train (AUC={roc['test'][2]:.2f})"
+        fig.add_trace(go.Scatter(x=roc['test'][0], y=roc['test'][1], name=name, mode='lines'))
+
+        fig.update_layout(
+            xaxis_title='False Positive Rate',
+            yaxis_title='True Positive Rate',
+            yaxis=dict(scaleanchor="x", scaleratio=1),
+            xaxis=dict(constrain='domain'),
+            width=700, height=500
+        )
+
+        fig.show(block=True)

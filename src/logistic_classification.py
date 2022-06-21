@@ -23,7 +23,7 @@ from mlxtend.plotting import plot_learning_curves
 import matplotlib.pyplot as plt
 from dataset import DataSet
 from variance import DataVariance
-from feature_select import Selector
+
 from roc_curve import RocCurve
 
 import warnings
