@@ -51,8 +51,9 @@ class Model:
     def __init__(self):
         self.classifier = None
         self.param_grid = None
+        self.make_classifier()
 
-    def make_logistic_classifier(self):
+    def make_classifier(self):
         """
 
         :return:
@@ -122,13 +123,13 @@ if __name__ == '__main__':
     feature_transform = make_feature_union()
 
     pipeline = make_pipeline(model.classifier, feature_transform)
-    LR_search = GridSearchCV(pipeline, param_grid=model.param_grid, refit=True, verbose=1, cv=10, n_jobs=4)
-    LR_search.fit(data.X_train, data.y_train)
+    search = GridSearchCV(pipeline, param_grid=model.param_grid, refit=True, verbose=1, cv=10, n_jobs=4)
+    search.fit(data.X_train, data.y_train)
 
-    print(LR_search.best_params_)
+    print(search.best_params_)
     # summarize
-    print('Mean Accuracy: %.3f' % LR_search.best_score_)
-    print('Config: %s' % LR_search.best_params_)
+    print('Mean Accuracy: %.3f' % search.best_score_)
+    print('Config: %s' % search.best_params_)
 
     scaler = pipeline['scaler']
-    RocCurve(LR_search.best_estimator_, data, scaler)
+    RocCurve(search.best_estimator_, data)

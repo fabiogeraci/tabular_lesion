@@ -51,21 +51,22 @@ class Model:
     def __init__(self):
         self.classifier = None
         self.param_grid = None
+        self.make_classifier()
 
-    def make_logistic_classifier(self):
+    def make_classifier(self):
         """
 
         :return:
         """
         self.classifier = LogisticRegression(random_state=2022,
-                                   max_iter=100000,
-                                   penalty='elasticnet',
-                                   solver='saga',
-                                   n_jobs=6,
-                                   warm_start=True,
-                                   multi_class='auto',
-                                   tol=1e-4
-                                   )
+                                             max_iter=100000,
+                                             penalty='elasticnet',
+                                             solver='saga',
+                                             n_jobs=6,
+                                             warm_start=True,
+                                             multi_class='auto',
+                                             tol=1e-4
+                                             )
         self.param_grid = {
             'classifier__l1_ratio': [0.2, 0.225, 0.25],
             'classifier__C': [0.0001, 0.0005, 0.001, 0.005, 0.01]
@@ -116,22 +117,18 @@ if __name__ == '__main__':
     variance_flag = True
     data = DataVariance(all_set, variance_flag, LogisticRegression())
 
-    # log_reg = LogisticRegression()
-    # model_selector = Selector(log_reg)
-    # selector = model_selector.selector_model.fit(data.X_train, data.y_train)
-
     model = Model()
 
     feature_transform = make_feature_union()
 
     pipeline = make_pipeline(model.classifier, feature_transform)
-    LR_search = GridSearchCV(pipeline, param_grid=model.param_grid, refit=True, verbose=1, cv=10, n_jobs=4)
-    LR_search.fit(data.X_train, data.y_train)
+    search = GridSearchCV(pipeline, param_grid=model.param_grid, refit=True, verbose=1, cv=10, n_jobs=4)
+    search.fit(data.X_train, data.y_train)
 
-    print(LR_search.best_params_)
+    print(search.best_params_)
     # summarize
-    print('Mean Accuracy: %.3f' % LR_search.best_score_)
-    print('Config: %s' % LR_search.best_params_)
+    print('Mean Accuracy: %.3f' % search.best_score_)
+    print('Config: %s' % search.best_params_)
 
     scaler = pipeline['scaler']
-    RocCurve(LR_search.best_estimator_, data)
+    RocCurve(search.best_estimator_, data)

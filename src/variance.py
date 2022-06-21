@@ -25,6 +25,7 @@ class DataVariance:
         self.X_test = None
         self.y_test = None
         self.variance_mask = None
+        self.selector_mask = None
         self.initialize()
 
     def initialize(self):
@@ -66,8 +67,10 @@ class DataVariance:
         """
 
         """
-        self.X_train_trans = self.all_set.X_train[self.all_set.X_train.columns[self.genetic_feature()]]
-        self.X_test_trans = self.all_set.X_test[self.all_set.X_test.columns[self.genetic_feature()]]
+        self.selector_mask = self.genetic_feature()
+
+        self.X_train_trans = self.X_train_trans[self.X_train_trans.columns[self.selector_mask.support_]]
+        self.X_test_trans = self.X_test_trans[self.X_test_trans.columns[self.selector_mask.support_]]
 
     def resample_dataset(self):
         """
