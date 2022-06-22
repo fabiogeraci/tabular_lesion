@@ -11,9 +11,9 @@ class Selector:
     def select_estimator(self):
 
         self.selector_model = GeneticSelectionCV(
-            self.estimator, cv=5, verbose=0,
-            scoring="f1_weighted", max_features=50,
-            n_population=50, crossover_proba=0.5,
+            self.estimator, cv=10, verbose=0,
+            scoring="f1_weighted", max_features=60,
+            n_population=60, crossover_proba=0.5,
             mutation_proba=0.2, n_generations=50,
             crossover_independent_proba=0.5,
             mutation_independent_proba=0.04,

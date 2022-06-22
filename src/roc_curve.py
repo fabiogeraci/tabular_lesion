@@ -1,5 +1,7 @@
 import sklearn
 import pandas as pd
+import time
+
 import matplotlib.pyplot as plt
 from variance import DataVariance
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay, classification_report, \
@@ -42,8 +44,9 @@ class RocCurve:
         """
 
         """
+        time_stamp = time.strftime("%Y%m%d-%H%M%S")
         df = pd.DataFrame(self.data.X_train.columns, columns=['Feature'])
-        df.to_csv(f'columns_{roc_auc_train:.3f}_{roc_auc_test:.3f}.csv', index=False)
+        df.to_csv(f'columns_{roc_auc_train:.3f}_{roc_auc_test:.3f}_{time_stamp}.csv', index=False)
 
     @staticmethod
     def plot_roc_curve(fpr_lr_train, tpr_lr_train, roc_auc_lr_train, fpr_lr_test, tpr_lr_test, roc_auc_lr_test):
@@ -85,13 +88,14 @@ class RocCurve:
             type='line', line=dict(dash='dash'),
             x0=0, x1=1, y0=0, y1=1
         )
-        name = f"ROC Train (AUC={roc['train'][2]:.2f})"
+        name = f"ROC Train (AUC={roc['train'][2]:.3f})"
         fig.add_trace(go.Scatter(x=roc['train'][0], y=roc['train'][1], name=name, mode='lines'))
 
-        name = f"ROC Train (AUC={roc['test'][2]:.2f})"
+        name = f"ROC Test (AUC={roc['test'][2]:.3f})"
         fig.add_trace(go.Scatter(x=roc['test'][0], y=roc['test'][1], name=name, mode='lines'))
 
         fig.update_layout(
+            uniformtext_minsize=12,
             xaxis_title='False Positive Rate',
             yaxis_title='True Positive Rate',
             yaxis=dict(scaleanchor="x", scaleratio=1),
