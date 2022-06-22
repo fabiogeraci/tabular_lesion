@@ -40,7 +40,6 @@ def get_dataset(path_test_csv):
 def time_stamp():
     # add data stamp to file name
     date = datetime.datetime.now().strftime("%Y_%m_%d-%I_%M_%S_%p")
-
     return date
 
 
