@@ -8,3 +8,5 @@ but the values are extrapolated from the ProstateX dataset that is available onl
 This is very much working in progress, mostly to exhibit some coding style and some ideas.
 
 All constructive comments are appreciated and valued.
+
+![Tests](https://github.com/fabiogeraci/tabular_lesion/actions/workflows/tests.yml/badge.svg)
