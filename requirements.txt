@@ -6,3 +6,8 @@ xgboost
 imbalanced-learn
 mitosheet
 sklearn-genetic
+flake8
+tox
+pytest
+pytest-cov
+mypy

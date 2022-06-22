@@ -4,11 +4,11 @@ import pandas as pd
 class DataSet:
     def __init__(self, csv_file_name: str):
         self.imported_dataframe = pd.read_csv(csv_file_name)
-        self.training_df = None
-        self.X_train = None
-        self.y_train = None
-        self.X_test = None
-        self.y_test = None
+        self.training_df = pd.DataFrame()
+        self.X_train = pd.DataFrame()
+        self.y_train = pd.DataFrame()
+        self.X_test = pd.DataFrame()
+        self.y_test = pd.DataFrame()
         self.target_name = ''
 
         self.generate_train_set()

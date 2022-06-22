@@ -1,14 +1,10 @@
-import os.path
-import sys
-import pandas as pd
 # Specific Import for Test
-import pytest
 from pytest import mark
-from confest import path_test_csv, get_dataset
 
-from src.dataset import DataSet
+from classifier.dataset import DataSet
 
 
+@mark.usefixtures("get_dataset")
 class TestDataset:
 
     @mark.test_drop_all_zero_columns

@@ -23,7 +23,7 @@ from mlxtend.plotting import plot_learning_curves
 import matplotlib.pyplot as plt
 from dataset import DataSet
 from variance import DataVariance
-from feature_select import Selector
+
 from roc_curve import RocCurve
 
 import warnings
@@ -44,7 +44,8 @@ def plot_class_balance(a_dataset: DataSet):
     fig = px.bar(target_series, x='Clinically_Sig', y='Count', color=('blue', 'red'), text='Count', title='Class Balance',
                  width=800, height=400)
     fig.update_layout(showlegend=False)
-    # fig.show(renderer="colab")
+    plt.show(block=True)
+    fig.show(block=True)#renderer="colab")
 
 
 class Model:
@@ -58,15 +59,18 @@ class Model:
 
         :return:
         """
-        self.classifier = RidgeClassifier(alpha=0.01,
-                                          copy_X=True,
-                                          fit_intercept=True,
-                                          max_iter=10000,
-                                          random_state=2022,
-                                          solver='auto',
-                                          tol=0.001)
+        self.classifier = LogisticRegression(random_state=2022,
+                                             max_iter=100000,
+                                             penalty='elasticnet',
+                                             solver='saga',
+                                             n_jobs=6,
+                                             warm_start=True,
+                                             multi_class='auto',
+                                             tol=1e-4
+                                             )
         self.param_grid = {
-            'classifier__alpha': [0.001, 0.005, 0.01],
+            'classifier__l1_ratio': [0.2, 0.225, 0.25],
+            'classifier__C': [0.0001, 0.0005, 0.001, 0.005, 0.01]
         }
 
 
@@ -78,13 +82,13 @@ def make_feature_union():
     # transforms for the feature union
     transforms = list()
     transforms.append(('maxbbs', MaxAbsScaler()))
-    transforms.append(('mms', MinMaxScaler()))
-    transforms.append(('ss', StandardScaler()))
-    transforms.append(('rs', RobustScaler()))
-    transforms.append(('qt', QuantileTransformer(n_quantiles=100, output_distribution='normal')))
-    transforms.append(('norm', Normalizer()))
-    transforms.append(('pt', PowerTransformer()))
-    transforms.append(('st', SplineTransformer()))
+    # transforms.append(('mms', MinMaxScaler()))
+    # transforms.append(('ss', StandardScaler()))
+    # transforms.append(('rs', RobustScaler()))
+    # transforms.append(('qt', QuantileTransformer(n_quantiles=100, output_distribution='normal')))
+    # transforms.append(('norm', Normalizer()))
+    # transforms.append(('pt', PowerTransformer()))
+    # transforms.append(('st', SplineTransformer()))
     transform_feature = FeatureUnion(transforms)
     return transform_feature
 
@@ -105,18 +109,14 @@ def make_pipeline(a_model, a_feature_transform):
 
 
 if __name__ == '__main__':
-    all_set = DataSet(os.path.join('..', 'data', 'lesion_df_balanced_Target_Lesion_ClinSig.csv'))
+    all_set = DataSet(os.path.join('../..', 'data', 'lesion_df_balanced_Target_Lesion_ClinSig.csv'))
     plot_class_balance(all_set)
 
     assert all_set.X_train.shape[0] == all_set.y_train.shape[0]
     assert all_set.X_test.shape[0] == all_set.y_test.shape[0]
 
     variance_flag = True
-    data = DataVariance(all_set, variance_flag)
-
-    log_reg = LogisticRegression()
-    model_selector = Selector(log_reg)
-    model_selector.selector_model.fit(data.X_train, data.y_train)
+    data = DataVariance(all_set, variance_flag, LogisticRegression())
 
     model = Model()
 

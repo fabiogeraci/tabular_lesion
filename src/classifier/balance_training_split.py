@@ -3,6 +3,7 @@ import os
 import copy
 from collections.abc import MutableMapping
 
+
 class TrainSplitDataConfig:
     PATH = os.getcwd()
     PERCENTAGE_TEST_SPLIT = 0.9
@@ -28,7 +29,7 @@ class TrainingInput:
         self.set_target_list()
 
     def add_features(self, file_path):
-        if not os.path.isfile(file_path) or not '.csv' in file_path.lower():
+        if not os.path.isfile(file_path) or '.csv' not in file_path.lower():
             return
 
         if self.file_name in file_path.lower():
@@ -166,7 +167,6 @@ class TrainingSplitter:
         :return: a single target dataframe
         """
         for target in training_input.target_list:
-
             drop_columns = copy.deepcopy(training_input.target_list)
             drop_columns.remove(target)
             split_data[target].drop(drop_columns, axis=1, inplace=True)

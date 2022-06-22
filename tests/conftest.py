@@ -1,19 +1,12 @@
 # Test related Imports
 import pytest
-import csv
 import os
-import glob
 import pathlib
 import datetime
 import gc
-import sys
-
 
 # Specific Functional Imports
-from sklearn.metrics import mean_squared_error
-import numpy as np
 import pandas as pd
-import math
 
 # Garbage collect
 gc.collect()
@@ -27,7 +20,7 @@ pd.set_option('max_colwidth', None)
 def path_test_csv():
     curr_path = str(pathlib.Path.cwd())
     if 'tests' in curr_path:
-        path_test_csv = os.path.join('..', 'data')
+        path_test_csv = os.path.join('../', 'data')
     else:
         path_test_csv = os.path.join(curr_path, 'data')
     yield path_test_csv
