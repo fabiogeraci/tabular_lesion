@@ -9,4 +9,6 @@ This is very much working in progress, mostly to exhibit some coding style and s
 
 All constructive comments are appreciated and valued.
 
+## To be notice that there is CI/CD pipeline implemented via tox and Git Action
+
 ![Tests](https://github.com/fabiogeraci/tabular_lesion/actions/workflows/tests.yml/badge.svg)
