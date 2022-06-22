@@ -9,7 +9,9 @@ class Selector:
         self.select_estimator()
 
     def select_estimator(self):
-
+        """
+        Used to pass the Genetic Algorithm for feature selection
+        """
         self.selector_model = GeneticSelectionCV(
             self.estimator, cv=10, verbose=0,
             scoring="f1_weighted", max_features=60,
