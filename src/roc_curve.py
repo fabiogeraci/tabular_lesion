@@ -11,6 +11,8 @@ import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
+time_stamp = time.strftime("%Y%m%d-%H%M%S")
+
 
 class RocCurve:
     def __init__(self, model: sklearn, a_data: DataVariance = None):
@@ -42,39 +44,13 @@ class RocCurve:
 
     def write_columns_to_csv(self, roc_auc_train: float, roc_auc_test: float):
         """
-
+        Writes out the Selected features in csv format
+        :param roc_auc_train: ROC accuracy for Training set
+        :param roc_auc_test: ROC accuracy for Test set
         """
-        time_stamp = time.strftime("%Y%m%d-%H%M%S")
+
         df = pd.DataFrame(self.data.X_train.columns, columns=['Feature'])
-        df.to_csv(f'columns_{roc_auc_train:.3f}_{roc_auc_test:.3f}_{time_stamp}.csv', index=False)
-
-    @staticmethod
-    def plot_roc_curve(fpr_lr_train, tpr_lr_train, roc_auc_lr_train, fpr_lr_test, tpr_lr_test, roc_auc_lr_test):
-        """
-
-        :param fpr_lr_train:
-        :param tpr_lr_train:
-        :param roc_auc_lr_train:
-        :param fpr_lr_test:
-        :param tpr_lr_test:
-        :param roc_auc_lr_test:
-        """
-        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 7))
-        ax1.set_title('ROC curve Train', fontsize=16)
-        ax1.plot(fpr_lr_train, tpr_lr_train, lw=3, label=f'LogRegr ROC curve (area = {roc_auc_lr_train:0.2f})')
-        ax1.set_xlabel('False Positive Rate', fontsize=16)
-        ax1.set_ylabel('True Positive Rate', fontsize=16)
-        ax1.legend(loc='lower right', fontsize=13)
-        ax1.plot([0, 1], [0, 1], color='navy', lw=3, linestyle='--')
-
-        ax2.set_title('ROC curve Test', fontsize=16)
-        ax2.plot(fpr_lr_test, tpr_lr_test, lw=3, label=f'LogRegr ROC curve (area = {roc_auc_lr_test:0.2f})')
-        ax2.set_xlabel('False Positive Rate', fontsize=16)
-        ax2.set_ylabel('True Positive Rate', fontsize=16)
-        ax2.legend(loc='lower right', fontsize=13)
-        ax2.plot([0, 1], [0, 1], color='navy', lw=3, linestyle='--')
-
-        plt.show(block=True)
+        df.to_csv(f'results/columns_{roc_auc_train:.3f}_{roc_auc_test:.3f}_{time_stamp}.csv', index=False)
 
     @staticmethod
     def plotly_roc_curve(fpr_lr_train, tpr_lr_train, roc_auc_lr_train,
@@ -102,5 +78,5 @@ class RocCurve:
             xaxis=dict(constrain='domain'),
             width=700, height=500
         )
-
+        fig.write_image(f"images/ROC_{roc['train'][2]:.3f}_{roc['test'][2]:.3f}_{time_stamp}.png")
         fig.show(block=True)
