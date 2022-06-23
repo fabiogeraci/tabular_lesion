@@ -31,9 +31,9 @@ class RocCurve:
         :param y_set:
         :return:
         """
-        y_scores = self.model.predict(x_set)
+        y_scores = self.model.predict_proba(x_set)
 
-        fpr_lr, tpr_lr, _ = roc_curve(y_set, y_scores)
+        fpr_lr, tpr_lr, _ = roc_curve(y_set, y_scores[:, 1])
         roc_auc_lr = auc(fpr_lr, tpr_lr)
 
         return fpr_lr, tpr_lr, roc_auc_lr
@@ -46,7 +46,7 @@ class RocCurve:
         """
 
         df = pd.DataFrame(self.data.X_train.columns, columns=['Feature'])
-        df.to_csv(f'results/{self.classifier_name}_selected_features_{roc_auc_train:.3f}_{roc_auc_test:.3f}_{time_stamp}.csv', index=False)
+        df.to_csv(f'../../results/{self.classifier_name}_selected_features_{roc_auc_train:.3f}_{roc_auc_test:.3f}_{time_stamp}.csv', index=False)
 
     @staticmethod
     def plotly_roc_curve(fpr_lr_train: float, tpr_lr_train: float, roc_auc_lr_train: float,
@@ -83,5 +83,5 @@ class RocCurve:
             xaxis=dict(constrain='domain'),
             width=700, height=500
         )
-        fig.write_image(f"images/{classifier_name}_ROC_{roc['train'][2]:.3f}_{roc['test'][2]:.3f}_{time_stamp}.png")
+        fig.write_image(f"../../images/{classifier_name}_ROC_{roc['train'][2]:.3f}_{roc['test'][2]:.3f}_{time_stamp}.png")
         fig.show(block=True)

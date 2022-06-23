@@ -35,7 +35,7 @@ class Model:
                                           solver='auto',
                                           tol=0.001)
         self.param_grid = {
-            'classifier__alpha': [0.001, 0.005, 0.01],
+            'classifier__alpha': [0.0001, 0.0005, 0.001, 0.005, 0.01],
         }
 
 
@@ -74,6 +74,7 @@ def make_pipeline(a_model, a_feature_transform):
 
 
 if __name__ == '__main__':
+
     all_set = DataSet(os.path.join('../..', 'data', 'lesion_df_balanced_Target_Lesion_ClinSig.csv'))
     plot_class_balance(all_set)
 

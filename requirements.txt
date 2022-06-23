@@ -11,3 +11,4 @@ tox
 pytest
 pytest-cov
 mypy
+kaleido
