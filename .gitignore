@@ -77,8 +77,8 @@ target/
 # Jupyter Notebook
 .ipynb_checkpoints
 .ipynb_checkpoints/*
-.idea
-.idea/*
+/.idea
+/.idea/*
 *.ipynb
 !clean_df.ipynb
 
