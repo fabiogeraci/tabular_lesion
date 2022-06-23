@@ -2,22 +2,18 @@ import sklearn
 import pandas as pd
 import time
 
-import matplotlib.pyplot as plt
 from variance import DataVariance
-from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay, classification_report, \
-    accuracy_score, f1_score, roc_auc_score, roc_curve, auc, \
-    precision_recall_curve
-import plotly.express as px
+from sklearn.metrics import roc_curve, auc
 import plotly.graph_objects as go
-from plotly.subplots import make_subplots
 
 time_stamp = time.strftime("%Y%m%d-%H%M%S")
 
 
 class RocCurve:
-    def __init__(self, model: sklearn, a_data: DataVariance = None):
+    def __init__(self, model: sklearn, a_data: DataVariance = None, classifier_name: str = None):
         self.model = model
         self.data = a_data
+        self.classifier_name = classifier_name
         self.initialize()
 
     def initialize(self):
@@ -26,11 +22,11 @@ class RocCurve:
 
         self.write_columns_to_csv(roc_auc_lr_train, roc_auc_lr_test)
 
-        self.plotly_roc_curve(fpr_lr_train, tpr_lr_train, roc_auc_lr_train, fpr_lr_test, tpr_lr_test, roc_auc_lr_test)
+        self.plotly_roc_curve(fpr_lr_train, tpr_lr_train, roc_auc_lr_train, fpr_lr_test, tpr_lr_test, roc_auc_lr_test, self.classifier_name)
 
     def generate_score(self, x_set, y_set):
         """
-
+        Calculate the FP and TP rate for the ROC analysis
         :param x_set:
         :param y_set:
         :return:
@@ -50,12 +46,21 @@ class RocCurve:
         """
 
         df = pd.DataFrame(self.data.X_train.columns, columns=['Feature'])
-        df.to_csv(f'results/columns_{roc_auc_train:.3f}_{roc_auc_test:.3f}_{time_stamp}.csv', index=False)
+        df.to_csv(f'results/{self.classifier_name}_selected_features_{roc_auc_train:.3f}_{roc_auc_test:.3f}_{time_stamp}.csv', index=False)
 
     @staticmethod
-    def plotly_roc_curve(fpr_lr_train, tpr_lr_train, roc_auc_lr_train,
-                         fpr_lr_test, tpr_lr_test, roc_auc_lr_test):
-
+    def plotly_roc_curve(fpr_lr_train: float, tpr_lr_train: float, roc_auc_lr_train: float,
+                         fpr_lr_test: float, tpr_lr_test: float, roc_auc_lr_test: float, classifier_name: str):
+        """
+        Plots and save the plot as a png of the combined ROC curve Train/Test
+        :param fpr_lr_train:
+        :param tpr_lr_train:
+        :param roc_auc_lr_train:
+        :param fpr_lr_test:
+        :param tpr_lr_test:
+        :param roc_auc_lr_test:
+        :param classifier_name:
+        """
         roc = {'train': [fpr_lr_train, tpr_lr_train, roc_auc_lr_train],
                'test': [fpr_lr_test, tpr_lr_test, roc_auc_lr_test]}
 
@@ -78,5 +83,5 @@ class RocCurve:
             xaxis=dict(constrain='domain'),
             width=700, height=500
         )
-        fig.write_image(f"images/ROC_{roc['train'][2]:.3f}_{roc['test'][2]:.3f}_{time_stamp}.png")
+        fig.write_image(f"images/{classifier_name}_ROC_{roc['train'][2]:.3f}_{roc['test'][2]:.3f}_{time_stamp}.png")
         fig.show(block=True)

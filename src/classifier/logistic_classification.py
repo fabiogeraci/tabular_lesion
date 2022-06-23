@@ -1,25 +1,12 @@
 import os
-import numpy as np
 import pandas as pd
 import plotly.express as px
-import copy
 
 import sklearn
-
-from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay, classification_report, \
-    accuracy_score, f1_score, roc_auc_score, roc_curve, auc, \
-    precision_recall_curve
-from sklearn.preprocessing import StandardScaler, MinMaxScaler, RobustScaler, QuantileTransformer, KBinsDiscretizer, Normalizer, PowerTransformer, \
-    SplineTransformer, MaxAbsScaler
-from sklearn.model_selection import GridSearchCV, train_test_split
-from sklearn.feature_selection import SelectFromModel, SelectKBest, chi2, VarianceThreshold
-from sklearn.decomposition import PCA
-from sklearn.utils.class_weight import compute_class_weight
+from sklearn.preprocessing import MaxAbsScaler
+from sklearn.model_selection import GridSearchCV
 from sklearn.linear_model import LogisticRegression, PassiveAggressiveClassifier, Perceptron, RidgeClassifier, SGDClassifier, SGDOneClassSVM
 from sklearn.pipeline import Pipeline, FeatureUnion
-from xgboost import XGBRegressor, plot_importance
-from imblearn.over_sampling import SMOTE, ADASYN, BorderlineSMOTE, KMeansSMOTE, SMOTEN, SMOTENC, SVMSMOTE
-from mlxtend.plotting import plot_learning_curves
 import matplotlib.pyplot as plt
 from dataset import DataSet
 from variance import DataVariance
@@ -44,8 +31,7 @@ def plot_class_balance(a_dataset: DataSet):
     fig = px.bar(target_series, x='Clinically_Sig', y='Count', color=('blue', 'red'), text='Count', title='Class Balance',
                  width=800, height=400)
     fig.update_layout(showlegend=False)
-    plt.show(block=True)
-    fig.show(block=True)#renderer="colab")
+    fig.show(block=True)
 
 
 class Model:
@@ -132,4 +118,4 @@ if __name__ == '__main__':
     print('Config: %s' % search.best_params_)
 
     scaler = pipeline['scaler']
-    RocCurve(search.best_estimator_, data)
+    RocCurve(search.best_estimator_, data, 'LogisticRegression')
