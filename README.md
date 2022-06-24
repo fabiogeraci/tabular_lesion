@@ -28,6 +28,7 @@ The data folder contains six datasets I will be working on.
 - mypy
 - kaleido
 - yellowbrick
+- skl2onnx
 
 ## Task
 
