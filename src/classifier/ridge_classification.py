@@ -1,6 +1,7 @@
 import os
 
 import sklearn
+
 from sklearn.preprocessing import MaxAbsScaler
 from sklearn.model_selection import GridSearchCV
 from sklearn.linear_model import LogisticRegression, PassiveAggressiveClassifier, Perceptron, RidgeClassifier, SGDClassifier, SGDOneClassSVM
@@ -9,6 +10,7 @@ from sklearn.pipeline import Pipeline, FeatureUnion
 from dataset import DataSet
 from variance import DataVariance
 from roc_curve import RocCurve
+from yellowbrick.classifier import ROCAUC
 from plotters.plot_class_balance import plot_class_balance
 
 import warnings
@@ -97,4 +99,8 @@ if __name__ == '__main__':
     print('Mean Accuracy: %.3f' % search.best_score_)
     print('Config: %s' % search.best_params_)
 
-    RocCurve(search.best_estimator_, data, 'RidgeClassifier')
+    # RocCurve(search, data, 'RidgeClassifier')
+    visualizer = ROCAUC(search.best_estimator_, classes=["0", "1"], binary=True)
+    visualizer.fit(data.X_train, data.y_train)  # Fit the training data to the visualizer
+    visualizer.score(data.X_test, data.y_test)  # Evaluate the model on the test data
+    visualizer.show(outpath="../../images/RidgeClassifier.png")  # Finalize and render the figure
