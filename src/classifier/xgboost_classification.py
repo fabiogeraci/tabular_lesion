@@ -29,14 +29,7 @@ class Model:
         :return:
         """
         self.classifier = XGBClassifier(random_state=2022,
-                                             max_iter=100000,
-                                             penalty='elasticnet',
-                                             solver='saga',
-                                             n_jobs=6,
-                                             warm_start=True,
-                                             multi_class='auto',
-                                             tol=1e-4
-                                             )
+                                        max_iter=100000)
         self.param_grid = {
             'classifier__booster': ['gbtree', 'gblinear', 'dart'],
             'classifier__eta': [0.1, 0.2, 0.3],

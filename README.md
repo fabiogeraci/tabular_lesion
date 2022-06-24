@@ -6,7 +6,7 @@ This is work in progress, mostly to exhibit some coding style and some ideas.
 I will not provide information on how the datasets are created, since I am under a <span style="color: red">no-disclosure</span> agreement,
 but the values are extrapolated from the ProstateX dataset that is available online.
 
-<p><span style="color: blue">_A CI/CD pipeline has been implemented via tox and Git Action_</span><p>
+<font color='blue'>_A CI/CD pipeline has been implemented via tox and Git Action_</font>
 
 The data folder contains six datasets I will be working on.
 
