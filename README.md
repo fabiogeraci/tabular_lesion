@@ -33,29 +33,31 @@ The data folder contains six datasets I will be working on.
 ## Task
 
 - [X]  Project Setup
-  - [X]  Project Structure
-  - [X]  Test Implementation
-  - [X]  Git Action connection
+- [X]  Project Structure
+- [X]  Test Implementation
+- [X]  Git Action connection
 
 - [] Classifier Implementation
 
   - [X]  LogisticRegression Classifier
   - [X]  XGBClassifier
   - [X]  RidgeClassifier
-
   - [] PassiveAggressiveClassifier
   - [] SGDOneClassSVM
   - [] SGDClassifier
   - [] Pytorch Tabular
 
 - [X]  Data Preprocessing
-  - [X]  Delete all zero Features
-  - [X]  Delete Features with STD larger than 10000
-  - [X]  Delete Features with low variance (variance threshold 0.005)
+- [X]  Delete all zero Features
+- [X]  Delete Features with STD larger than 10000
+- [X]  Delete Features with low variance (variance threshold 0.005)
 - [X]  Feature Selection
-  - [X]  Genetic Algorithm Approach
-
-All constructive comments are appreciated and valued.
+- [X]  Genetic Algorithm Approach
+- [] ONNX implementation
+  - [] Save sklearn best estimator to ONNX
+  - [] Inference via ONNX
+  
+_**All constructive comments are appreciated and valued.**_
 
 ## Badges
 
