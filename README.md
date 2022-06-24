@@ -1,12 +1,13 @@
 # Tabular Lesion Prediction
 
 ## Overview
+
 This is work in progress, mostly to exhibit some coding style and some ideas.
 
-I will not provide information on how the datasets are created, since I am under a <span style="color: red">no-disclosure</span> agreement,
+I will not provide information on how the datasets are created, since I am under a _**no-disclosure agreement**_,
 but the values are extrapolated from the ProstateX dataset that is available online.
 
-<font color='blue'>_A CI/CD pipeline has been implemented via tox and Git Action_</font>
+**_A CI/CD pipeline has been implemented via tox and Git Action_**
 
 The data folder contains six datasets I will be working on.
 
@@ -30,26 +31,33 @@ The data folder contains six datasets I will be working on.
 
 ## Task
 
-- [x] Project Setup
-  - [x] Project Structure
-  - [x] Test Implementation
-  - [x] Git Action connection
+- [X]  Project Setup
+  - [X]  Project Structure
+  - [X]  Test Implementation
+  - [X]  Git Action connection
+
 - [] Classifier Implementation
-  - [x] LogisticRegression Classifier
-  - [x] XGBClassifier
-  - [x] RidgeClassifier
+
+  - [X]  LogisticRegression Classifier
+  - [X]  XGBClassifier
+  - [X]  RidgeClassifier
+
   - [] PassiveAggressiveClassifier
   - [] SGDOneClassSVM
   - [] SGDClassifier
   - [] Pytorch Tabular
-- [x] Data Preprocessing
-  - [x] Delete all zero Features
-  - [x] Delete Features with STD larger than 10000
-  - [x] Delete Features with low variance (variance threshold 0.005)
-- [x] Feature Selection
-  - [x] Genetic Algorithm Approach
 
-  
+- [X]  Data Preprocessing
+  - [X]  Delete all zero Features
+  - [X]  Delete Features with STD larger than 10000
+  - [X]  Delete Features with low variance (variance threshold 0.005)
+- [X]  Feature Selection
+  - [X]  Genetic Algorithm Approach
+
 All constructive comments are appreciated and valued.
+
+## Badges
+
+![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)
 
 ![Tests](https://github.com/fabiogeraci/tabular_lesion/actions/workflows/tests.yml/badge.svg)
