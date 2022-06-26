@@ -4,11 +4,11 @@ import pandas as pd
 class DataSet:
     def __init__(self, csv_file_name: str):
         self.imported_dataframe = pd.read_csv(csv_file_name)
-        self.training_df = pd.DataFrame()
-        self.X_train = pd.DataFrame()
-        self.y_train = pd.DataFrame()
-        self.X_test = pd.DataFrame()
-        self.y_test = pd.DataFrame()
+        self.training_df: pd.DataFrame() = None
+        self.X_train: pd.DataFrame() = None
+        self.y_train: pd.DataFrame() = None
+        self.X_test: pd.DataFrame() = None
+        self.y_test: pd.DataFrame() = None
         self.target_name = ''
 
         self.generate_train_set()
@@ -24,7 +24,7 @@ class DataSet:
 
         self.training_df = pd.concat([df_train, df_valid], axis=0)
 
-        print(f'Are thre any Nan = {self.training_df.isnull().values.any()}, Number of Nan = {self.training_df.isnull().sum().sum()}')
+        print(f'Are there any Nan = {self.training_df.isnull().values.any()}, Number of Nan = {self.training_df.isnull().sum().sum()}')
 
         for key in self.training_df.keys():
             if 'target' in key.lower():

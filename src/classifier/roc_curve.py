@@ -31,7 +31,7 @@ class RocCurve:
         :param y_set:
         :return:
         """
-        y_scores = self.model.predict_proba(x_set)
+        y_scores = self.model.best_estimator_.predict_proba(x_set)
 
         fpr_lr, tpr_lr, _ = roc_curve(y_set, y_scores[:, 1])
         roc_auc_lr = auc(fpr_lr, tpr_lr)
@@ -84,4 +84,4 @@ class RocCurve:
             width=700, height=500
         )
         fig.write_image(f"../../images/{classifier_name}_ROC_{roc['train'][2]:.3f}_{roc['test'][2]:.3f}_{time_stamp}.png")
-        fig.show(block=True)
+        # fig.show(block=True)

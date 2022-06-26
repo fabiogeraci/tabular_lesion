@@ -2,7 +2,7 @@ from genetic_selection import GeneticSelectionCV
 
 
 class Selector:
-    def __init__(self, estimator=None, n_jobs: int = 2):
+    def __init__(self, estimator=None, n_jobs: int = -2):
         self.estimator = estimator
         self.n_jobs = n_jobs
         self.selector_model = None
