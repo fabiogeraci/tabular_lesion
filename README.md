@@ -56,6 +56,7 @@ The data folder contains six datasets I will be working on.
 - [X]  Genetic Algorithm Approach
 - [] ONNX implementation
   - [x] Save sklearn best estimator to ONNX
+  - [] Save xgboost model to ONNX
   - [] Inference via ONNX
   
 _**All constructive comments are appreciated and valued.**_
