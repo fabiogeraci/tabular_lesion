@@ -99,4 +99,4 @@ if __name__ == '__main__':
     print('Mean Accuracy: %.3f' % search.best_score_)
     print('Config: %s' % search.best_params_)
 
-    RocCurve(search, data, 'XGBClassifier_KNC25f_binary_logistic')
+    RocCurve(search, data, 'XGBClassifier_KNC25f')
