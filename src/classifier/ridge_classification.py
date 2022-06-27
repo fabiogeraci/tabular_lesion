@@ -4,12 +4,12 @@ import sklearn
 
 from sklearn.preprocessing import MaxAbsScaler
 from sklearn.model_selection import GridSearchCV
-from sklearn.linear_model import LogisticRegression, PassiveAggressiveClassifier, Perceptron, RidgeClassifier, SGDClassifier, SGDOneClassSVM
+from sklearn.linear_model import LogisticRegression, RidgeClassifier
 from sklearn.pipeline import Pipeline, FeatureUnion
 
 from dataset import DataSet
 from variance import DataVariance
-from roc_curve import RocCurve
+
 from yellowbrick.classifier import ROCAUC
 from plotters.plot_class_balance import plot_class_balance
 

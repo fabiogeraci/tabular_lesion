@@ -54,7 +54,7 @@ The data folder contains six datasets I will be working on.
 - [X]  Feature Selection
 - [X]  Genetic Algorithm Approach
 - [] ONNX implementation
-  - [] Save sklearn best estimator to ONNX
+  - [x] Save sklearn best estimator to ONNX
   - [] Inference via ONNX
   
 _**All constructive comments are appreciated and valued.**_

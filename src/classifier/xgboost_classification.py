@@ -5,13 +5,15 @@ from sklearn.preprocessing import MaxAbsScaler
 from sklearn.model_selection import GridSearchCV
 from sklearn.neighbors import KNeighborsClassifier
 from xgboost import XGBClassifier
-from sklearn.linear_model import LogisticRegression, PassiveAggressiveClassifier, Perceptron, RidgeClassifier, SGDClassifier, SGDOneClassSVM
+
 from sklearn.pipeline import Pipeline, FeatureUnion
 
 from dataset import DataSet
 from variance import DataVariance
 from roc_curve import RocCurve
-from plotters.plot_class_balance import plot_class_balance
+from model_save import save_model
+
+# from plotters.plot_class_balance import plot_class_balance
 
 import warnings
 warnings.filterwarnings('ignore')
@@ -31,7 +33,6 @@ class Model:
         """
         self.classifier = XGBClassifier(random_state=2022,
                                         booster='gbtree',
-                                        # objective='binary:logistic',
                                         n_estimators=100,
                                         eta=0.001)
         self.param_grid = {
@@ -100,3 +101,5 @@ if __name__ == '__main__':
     print('Config: %s' % search.best_params_)
 
     RocCurve(search, data, 'XGBClassifier_KNC25f')
+
+    save_model(search.best_estimator_, 'XGBClassifier_KNC25f')

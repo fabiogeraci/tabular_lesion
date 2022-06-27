@@ -9,7 +9,8 @@ from sklearn.pipeline import Pipeline, FeatureUnion
 from dataset import DataSet
 from variance import DataVariance
 from roc_curve import RocCurve
-from plotters.plot_class_balance import plot_class_balance
+from model_save import save_model
+# from plotters.plot_class_balance import plot_class_balance
 
 import warnings
 warnings.filterwarnings('ignore')
@@ -78,7 +79,7 @@ def make_pipeline(a_model, a_feature_transform):
 
 if __name__ == '__main__':
     all_set = DataSet(os.path.join('../..', 'data', 'lesion_df_balanced_Target_Lesion_ClinSig.csv'))
-    plot_class_balance(all_set)
+    # plot_class_balance(all_set)
 
     assert all_set.X_train.shape[0] == all_set.y_train.shape[0]
     assert all_set.X_test.shape[0] == all_set.y_test.shape[0]
@@ -100,3 +101,4 @@ if __name__ == '__main__':
     print('Config: %s' % search.best_params_)
 
     RocCurve(search, data, 'LogisticRegression')
+    save_model(search.best_estimator_, 'LogisticRegression')
