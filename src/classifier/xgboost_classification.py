@@ -31,13 +31,14 @@ class Model:
         """
         self.classifier = XGBClassifier(random_state=2022,
                                         booster='gbtree',
+                                        # objective='binary:logistic',
                                         n_estimators=100,
                                         eta=0.001)
         self.param_grid = {
             # 'classifier__booster': ['gbtree', 'gblinear', 'dart'],
             # 'classifier__eta': [0.1, 0.2, 0.3],
-            'classifier__gamma': [0.0005, 0.001, 0.002, 0.003],
-            'classifier__max_depth': [6, 7, 8, 9],
+            'classifier__gamma': [0.00025, 0.0005, 0.001, 0.002],
+            'classifier__max_depth': [5, 6, 7, 8],
         }
 
 
@@ -98,4 +99,4 @@ if __name__ == '__main__':
     print('Mean Accuracy: %.3f' % search.best_score_)
     print('Config: %s' % search.best_params_)
 
-    RocCurve(search, data, 'XGBClassifier_KNC25f')
+    RocCurve(search, data, 'XGBClassifier_KNC25f_binary_logistic')
