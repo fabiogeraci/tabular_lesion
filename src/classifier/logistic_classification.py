@@ -5,6 +5,7 @@ from sklearn.preprocessing import MaxAbsScaler
 from sklearn.model_selection import GridSearchCV
 from sklearn.linear_model import LogisticRegression, PassiveAggressiveClassifier, Perceptron, RidgeClassifier, SGDClassifier, SGDOneClassSVM
 from sklearn.pipeline import Pipeline, FeatureUnion
+from sklearn.neighbors import KNeighborsClassifier
 
 from dataset import DataSet
 from variance import DataVariance
@@ -39,7 +40,7 @@ class Model:
                                              )
         self.param_grid = {
             'classifier__l1_ratio': [0.2, 0.225, 0.25],
-            'classifier__C': [0.0001, 0.0005, 0.001, 0.005, 0.01]
+            # 'classifier__C': [0.0001, 0.0005, 0.001, 0.005, 0.01]
         }
 
 
@@ -85,7 +86,7 @@ if __name__ == '__main__':
     assert all_set.X_test.shape[0] == all_set.y_test.shape[0]
 
     variance_flag = True
-    data = DataVariance(all_set, variance_flag, LogisticRegression())
+    data = DataVariance(all_set, variance_flag, KNeighborsClassifier(n_neighbors=25))
 
     model = Model()
 
@@ -100,5 +101,5 @@ if __name__ == '__main__':
     print('Mean Accuracy: %.3f' % search.best_score_)
     print('Config: %s' % search.best_params_)
 
-    RocCurve(search, data, 'LogisticRegression')
-    save_model(search.best_estimator_, 'LogisticRegression')
+    roc_curve_data = RocCurve(search, data, 'LogisticRegression')
+    save_model(data, search.best_estimator_, f'LogisticRegression_{roc_curve_data.test_scores}')

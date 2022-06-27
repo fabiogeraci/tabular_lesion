@@ -14,6 +14,7 @@ class RocCurve:
         self.model = model
         self.data = a_data
         self.classifier_name = classifier_name
+        self.test_scores: str = ''
         self.initialize()
 
     def initialize(self):
@@ -31,7 +32,7 @@ class RocCurve:
         :param y_set:
         :return:
         """
-        y_scores = self.model.best_estimator_.predict_proba(x_set)
+        y_scores = self.model.predict_proba(x_set)
 
         fpr_lr, tpr_lr, _ = roc_curve(y_set, y_scores[:, 1])
         roc_auc_lr = auc(fpr_lr, tpr_lr)
@@ -46,7 +47,8 @@ class RocCurve:
         """
 
         df = pd.DataFrame(self.data.X_train.columns, columns=['Feature'])
-        df.to_csv(f'../../results/{self.classifier_name}_selected_features_{roc_auc_train:.3f}_{roc_auc_test:.3f}_{time_stamp}.csv', index=False)
+        self.test_scores = f'{roc_auc_train:.3f}_{roc_auc_test:.3f}'
+        df.to_csv(f'../../results/{self.classifier_name}_selected_features_{self.test_scores}_{time_stamp}.csv', index=False)
 
     @staticmethod
     def plotly_roc_curve(fpr_lr_train: float, tpr_lr_train: float, roc_auc_lr_train: float,

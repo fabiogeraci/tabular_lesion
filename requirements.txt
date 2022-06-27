@@ -13,3 +13,4 @@ pytest-cov
 mypy
 kaleido
 yellowbrick
+skl2onnx

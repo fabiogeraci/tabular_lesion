@@ -6,9 +6,11 @@ from sklearn.preprocessing import MaxAbsScaler
 from sklearn.model_selection import GridSearchCV
 from sklearn.linear_model import LogisticRegression, RidgeClassifier
 from sklearn.pipeline import Pipeline, FeatureUnion
+from sklearn.neighbors import KNeighborsClassifier
 
 from dataset import DataSet
 from variance import DataVariance
+from model_save import save_model
 
 from yellowbrick.classifier import ROCAUC
 from plotters.plot_class_balance import plot_class_balance
@@ -84,7 +86,7 @@ if __name__ == '__main__':
     assert all_set.X_test.shape[0] == all_set.y_test.shape[0]
 
     variance_flag = True
-    data = DataVariance(all_set, variance_flag, LogisticRegression())
+    data = DataVariance(all_set, variance_flag, KNeighborsClassifier(n_neighbors=25))
 
     model = Model()
 
@@ -104,3 +106,5 @@ if __name__ == '__main__':
     visualizer.fit(data.X_train, data.y_train)  # Fit the training data to the visualizer
     visualizer.score(data.X_test, data.y_test)  # Evaluate the model on the test data
     visualizer.show(outpath="../../images/RidgeClassifier.png")  # Finalize and render the figure
+
+    save_model(data, search.best_estimator_, 'RidgeClassifier')
