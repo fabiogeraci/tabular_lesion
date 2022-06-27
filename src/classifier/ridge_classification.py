@@ -1,4 +1,5 @@
 import os
+import time
 
 import sklearn
 
@@ -18,6 +19,7 @@ from plotters.plot_class_balance import plot_class_balance
 import warnings
 warnings.filterwarnings('ignore')
 print(sklearn.__version__)
+time_stamp = time.strftime("%Y%m%d-%H%M%S")
 
 
 class Model:
@@ -105,6 +107,7 @@ if __name__ == '__main__':
     visualizer = ROCAUC(search.best_estimator_, classes=["0", "1"], binary=True)
     visualizer.fit(data.X_train, data.y_train)  # Fit the training data to the visualizer
     visualizer.score(data.X_test, data.y_test)  # Evaluate the model on the test data
-    visualizer.show(outpath="../../images/RidgeClassifier.png")  # Finalize and render the figure
 
-    save_model(data, search.best_estimator_, 'RidgeClassifier')
+    visualizer.show(outpath=f"../../images/RidgeClassifier_{time_stamp}.png")  # Finalize and render the figure
+
+    save_model(data, search.best_estimator_, f'RidgeClassifier_{time_stamp}')

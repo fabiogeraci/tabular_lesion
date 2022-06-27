@@ -40,7 +40,7 @@ class Model:
                                              )
         self.param_grid = {
             'classifier__l1_ratio': [0.2, 0.225, 0.25],
-            # 'classifier__C': [0.0001, 0.0005, 0.001, 0.005, 0.01]
+            'classifier__C': [0.0001, 0.0005, 0.001, 0.005, 0.01]
         }
 
 
