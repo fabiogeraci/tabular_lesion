@@ -11,7 +11,7 @@ from sklearn.neighbors import KNeighborsClassifier
 
 from dataset import DataSet
 from variance import DataVariance
-from model_save import save_model
+from model_save import SklearnModelOnnx
 
 from yellowbrick.classifier import ROCAUC
 from plotters.plot_class_balance import plot_class_balance
@@ -82,7 +82,7 @@ def make_pipeline(a_model, a_feature_transform):
 if __name__ == '__main__':
 
     all_set = DataSet(os.path.join('../..', 'data', 'lesion_df_balanced_Target_Lesion_ClinSig.csv'))
-    plot_class_balance(all_set)
+    # plot_class_balance(all_set)
 
     assert all_set.X_train.shape[0] == all_set.y_train.shape[0]
     assert all_set.X_test.shape[0] == all_set.y_test.shape[0]
@@ -110,4 +110,4 @@ if __name__ == '__main__':
 
     visualizer.show(outpath=f"../../images/RidgeClassifier_{time_stamp}.png")  # Finalize and render the figure
 
-    save_model(data, search.best_estimator_, f'RidgeClassifier_{time_stamp}')
+    SklearnModelOnnx(search.best_estimator_, data, f'RidgeClassifier_{time_stamp}')

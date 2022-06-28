@@ -10,7 +10,8 @@ from sklearn.neighbors import KNeighborsClassifier
 from dataset import DataSet
 from variance import DataVariance
 from roc_curve import RocCurve
-from model_save import save_model, ModelSave, SklearnModelOnnx
+from model_save import SklearnModelOnnx
+
 # from plotters.plot_class_balance import plot_class_balance
 
 import warnings

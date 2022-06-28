@@ -11,7 +11,7 @@ from sklearn.pipeline import Pipeline, FeatureUnion
 from dataset import DataSet
 from variance import DataVariance
 from roc_curve import RocCurve
-from model_save import save_model
+from model_save import XgboostModelToOnnx
 
 # from plotters.plot_class_balance import plot_class_balance
 
@@ -102,4 +102,5 @@ if __name__ == '__main__':
 
     roc_curve_data = RocCurve(search, data, 'XGBClassifier_KNC25f')
 
-    save_model(data, search.best_estimator_, f'XGBClassifier_KNC25f_{roc_curve_data.test_scores}')
+    XgboostModelToOnnx(search.best_estimator_, data, f'XGBClassifier_KNC25f_{roc_curve_data.test_scores}')
+
