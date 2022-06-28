@@ -100,6 +100,6 @@ if __name__ == '__main__':
     print('Mean Accuracy: %.3f' % search.best_score_)
     print('Config: %s' % search.best_params_)
 
-    RocCurve(search, data, 'XGBClassifier_KNC25f')
+    roc_curve_data = RocCurve(search, data, 'XGBClassifier_KNC25f')
 
-    save_model(search.best_estimator_, 'XGBClassifier_KNC25f')
+    save_model(data, search.best_estimator_, f'XGBClassifier_KNC25f_{roc_curve_data.test_scores}')

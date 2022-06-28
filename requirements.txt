@@ -15,3 +15,4 @@ kaleido
 yellowbrick
 skl2onnx
 onnxmltools
+onnxruntime

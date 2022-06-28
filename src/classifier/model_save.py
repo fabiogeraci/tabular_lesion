@@ -6,6 +6,7 @@ from xgboost import XGBClassifier
 from skl2onnx import convert_sklearn, update_registered_converter
 from skl2onnx.common.shape_calculator import calculate_linear_classifier_output_shapes
 from onnxmltools.convert.xgboost.operator_converters.XGBoost import convert_xgboost
+import onnxruntime as rt
 from onnxmltools.convert import convert_xgboost as convert_xgboost_booster
 from skl2onnx.common.data_types import FloatTensorType
 
@@ -14,13 +15,11 @@ from roc_curve import RocCurve
 
 
 class ModelSave:
-    def __init__(self, model: sklearn, a_data: DataVariance = None,
-                 roc_data: RocCurve = None, classifier_name: str = None):
+    def __init__(self, model: sklearn, a_data: DataVariance = None, classifier_name: str = None):
 
         self.model = model
         self.data = a_data
         self.classifier_name = classifier_name
-        self.test_scores: str = roc_data.test_scores
         self.initial_type = None
         self.initialize_onnx()
 

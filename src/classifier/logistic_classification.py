@@ -10,7 +10,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from dataset import DataSet
 from variance import DataVariance
 from roc_curve import RocCurve
-from model_save import save_model
+from model_save import save_model, ModelSave, SklearnModelOnnx
 # from plotters.plot_class_balance import plot_class_balance
 
 import warnings
@@ -102,4 +102,6 @@ if __name__ == '__main__':
     print('Config: %s' % search.best_params_)
 
     roc_curve_data = RocCurve(search, data, 'LogisticRegression')
-    save_model(data, search.best_estimator_, f'LogisticRegression_{roc_curve_data.test_scores}')
+    # save_model(data, search.best_estimator_, f'LogisticRegression_{roc_curve_data.test_scores}')
+    # ModelSave(search.best_estimator_, data, f'LogisticRegression_{roc_curve_data.test_scores}')
+    SklearnModelOnnx(search.best_estimator_, data, f'LogisticRegression_{roc_curve_data.test_scores}')
