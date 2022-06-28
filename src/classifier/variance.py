@@ -75,12 +75,13 @@ class DataVariance:
         """
 
         """
-        # smote = ADASYN(random_state=2022, sampling_strategy='minority', n_jobs=4)
-        smote = SMOTE(random_state=2022, n_jobs=4)
+        smote = ADASYN(random_state=2022, sampling_strategy='minority', n_jobs=4)
+        # smote = SMOTE(random_state=2022, n_jobs=4)
         if self.variance_flag:
             self.X_train, self.y_train = smote.fit_resample(self.X_train_trans, self.all_set.y_train.values.ravel())
             self.X_test = self.X_test_trans
         else:
             self.X_train, self.y_train = smote.fit_resample(self.all_set.X_train, self.all_set.y_train.values.ravel())
             self.X_test = self.all_set.X_test
+
         self.y_test = self.all_set.y_test
