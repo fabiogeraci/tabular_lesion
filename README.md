@@ -49,6 +49,7 @@ The data folder contains six datasets I will be working on.
   - [X]  LogisticRegression Classifier
   - [X]  XGBClassifier
   - [X]  RidgeClassifier
+  - [X]  GaussianNB Classifier
   - [] PassiveAggressiveClassifier
   - [] SGDOneClassSVM
   - [] SGDClassifier
