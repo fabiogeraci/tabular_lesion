@@ -53,7 +53,7 @@ The data folder contains six datasets I will be working on.
   - [] SGDOneClassSVM
   - [] SGDClassifier
   - [] Pytorch Tabular
-- [] ONNX implementation (example class inheritance with classmethod)
+- [] ONNX implementation (examples of class inheritance)
   - [x] Save sklearn best estimator to ONNX
   - [x] Save xgboost model to ONNX
   - [] Inference via ONNX

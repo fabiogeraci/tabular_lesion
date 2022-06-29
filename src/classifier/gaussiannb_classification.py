@@ -30,19 +30,10 @@ class Model:
 
         :return:
         """
-        self.classifier = LogisticRegression(random_state=2022,
-                                             max_iter=100000,
-                                             penalty='elasticnet',
-                                             solver='saga',
-                                             n_jobs=6,
-                                             warm_start=True,
-                                             multi_class='auto',
-                                             tol=1e-4
-                                             )
+        self.classifier = GaussianNB()
         self.param_grid = {
-            'classifier__l1_ratio': [0.2, 0.225, 0.25],
-            'classifier__C': [0.0001, 0.0005, 0.001, 0.005, 0.01]
-        }
+            'classifier__var_smoothing': [1e-11, 1e-10, 1e-9]
+            }
 
 
 def make_feature_union():
@@ -102,8 +93,8 @@ if __name__ == '__main__':
     print('Mean Accuracy: %.3f' % search.best_score_)
     print('Config: %s' % search.best_params_)
 
-    roc_curve_data = RocCurve(search, data, 'LogisticRegression')
+    roc_curve_data = RocCurve(search, data, 'GaussianNB')
 
-    model_save = ModelSave(search.best_estimator_, data, f'LogisticRegression_{roc_curve_data.test_scores}')
+    model_save = ModelSave(search.best_estimator_, data, f'GaussianNB{roc_curve_data.test_scores}')
 
     SklearnModelOnnx.save_model(model_save)
