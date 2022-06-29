@@ -69,7 +69,18 @@ pip install -r requirements.txt
 
 ## Usage
 
-To be added
+```
+cd src/classifier
+```
+
+At the moment, the following classifier are available by running one of the following commands:
+
+```
+python logistic_classification.py
+python ridge_classification.py
+python xgboost_classification.py
+python gaussiannb_classification.py
+```
 
 ## Badges
 
