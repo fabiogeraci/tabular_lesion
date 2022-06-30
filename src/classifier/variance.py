@@ -28,9 +28,13 @@ class DataVariance:
         self.initialize()
 
     def initialize(self):
+        """
+        initializer
+        """
         self.variance_mask = self.generate_variance_mask(self.all_set.X_train)
         self.apply_variance()
-        self.apply_genetic()
+        if self.selector_model is not None:
+            self.apply_genetic()
         self.resample_dataset()
 
     @staticmethod

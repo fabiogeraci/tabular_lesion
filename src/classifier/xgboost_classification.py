@@ -4,6 +4,7 @@ import sklearn
 from sklearn.preprocessing import MaxAbsScaler
 from sklearn.model_selection import GridSearchCV
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.tree import DecisionTreeClassifier
 from xgboost import XGBClassifier
 
 from sklearn.pipeline import Pipeline, FeatureUnion
@@ -100,7 +101,9 @@ if __name__ == '__main__':
     print('Mean Accuracy: %.3f' % search.best_score_)
     print('Config: %s' % search.best_params_)
 
-    roc_curve_data = RocCurve(search, data, 'XGBClassifier_KNC25f')
+    onnx_file_name = 'XGBClassifier_DecisionTreeClassifier'
 
-    XgboostModelToOnnx(search.best_estimator_, data, f'XGBClassifier_KNC25f_{roc_curve_data.test_scores}')
+    roc_curve_data = RocCurve(search, data, onnx_file_name)
+
+    XgboostModelToOnnx(search.best_estimator_, data, f'{onnx_file_name}_{roc_curve_data.test_scores}')
 

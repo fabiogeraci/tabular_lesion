@@ -18,7 +18,7 @@ from variance import DataVariance
 
 class ModelSave:
 
-    def __init__(self, model: sklearn, a_data: DataVariance = None, classifier_name: str = None):
+    def __init__(self, model: sklearn = None, a_data: DataVariance = None, classifier_name: str = None):
 
         self.model = model
         self.data = a_data
@@ -58,9 +58,8 @@ class XgboostModelToOnnx(ModelSave):
             calculate_linear_classifier_output_shapes, convert_xgboost,
             options={'nocl': [True, False], 'zipmap': [True, False, 'columns']})
 
-        model_onnx = convert_sklearn(
-            self.model, 'pipeline_xgboost',
-            [('input', FloatTensorType([None, self.initial_type]))])
+        model_onnx = convert_sklearn(self.model, 'pipeline_xgboost', self.initial_type,
+                                     target_opset={'': 12, 'ai.onnx.ml': 2})
 
         with open(os.path.join('../..', 'models', f'{self.classifier_name}.onnx'), "wb") as f:
             f.write(model_onnx.SerializeToString())
