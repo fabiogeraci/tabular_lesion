@@ -44,7 +44,7 @@ The data folder contains six datasets I will be working on.
    - [X]  Delete Features with low variance (variance threshold 0.005)
    - [X]  Oversampling via SMOTE
 - [X]  Feature Selection
-   - [X]  Genetic Algorithm Approach
+   - [X]  Genetic Algorithm Approach (by sklearn-genetic)
 - [] Classifier Implementation
   - [X]  LogisticRegression Classifier
   - [X]  XGBClassifier
