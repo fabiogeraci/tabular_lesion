@@ -77,11 +77,9 @@ target/
 # Jupyter Notebook
 .ipynb_checkpoints
 .ipynb_checkpoints/*
-/.idea
-/.idea/*
 *.ipynb
-!clean_df.ipynb
-
+.idea
+.idea/*
 
 # IPython
 profile_default/
@@ -137,4 +135,5 @@ dmypy.json
 
 # private_files
 data/lesion_df.csv
+models/pipeline_xgboost.onnx
 /clean_df.ipynb

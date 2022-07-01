@@ -33,6 +33,7 @@ class Model:
         :return:
         """
         self.classifier = XGBClassifier(random_state=2022,
+                                        objective='binary:logitraw',
                                         booster='gbtree',
                                         n_estimators=100,
                                         eta=0.001)

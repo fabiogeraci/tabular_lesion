@@ -17,23 +17,26 @@ pd.set_option('max_colwidth', None)
 
 
 @pytest.fixture(scope='session')
-def path_test_csv():
+def path_test_dir():
     curr_path = str(pathlib.Path.cwd())
     if 'tests' in curr_path:
         path_test_csv = os.path.join('../', 'data')
+        path_test_model = os.path.join('../', 'models')
     else:
         path_test_csv = os.path.join(curr_path, 'data')
-    yield path_test_csv
+        path_test_model = os.path.join(curr_path, 'models')
+    yield path_test_csv, path_test_model
 
 
 @pytest.fixture(scope='session')
-def get_dataset(path_test_csv):
+def get_dataset(path_test_dir):
     """
     Get the dataset
-    :param path_test_csv:
+    :param path_test_dir:
     :return:
     """
-    return pd.read_csv(os.path.join(path_test_csv, 'lesion_df_balanced_Target_Lesion_ClinSig.csv')).iloc[:, 2:]
+    path_test_csv, _ = path_test_dir
+    return pd.read_csv(os.path.join(path_test_csv, 'lesion_df_balanced_Target_Lesion_ClinSig.csv')).iloc[:, 1:]
 
 
 @pytest.fixture(scope='session')

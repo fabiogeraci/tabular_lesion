@@ -23,8 +23,9 @@ The data folder contains six datasets I will be working on.
 - sklearn-genetic>=0.5.1
 - flake8>=4.0.1
 - tox>=3.25.0
-- pytest>=3.25.0
+- pytest>=6.2.5
 - pytest-cov>=3.0.0
+- pytest-pythonpath>=0.7.4
 - mypy>=0.961
 - kaleido>=0.2.1
 - yellowbrick>=1.4
