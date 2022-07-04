@@ -1,11 +1,14 @@
 import os
 
+import pandas as pd
 import sklearn
-from sklearn.preprocessing import MaxAbsScaler
+from sklearn.preprocessing import MaxAbsScaler, QuantileTransformer
 from sklearn.model_selection import GridSearchCV
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
-from xgboost import XGBClassifier
+from skopt import BayesSearchCV
+
+from xgboost import XGBClassifier, XGBRFClassifier
 
 from sklearn.pipeline import Pipeline, FeatureUnion
 
@@ -33,14 +36,19 @@ class Model:
         :return:
         """
         self.classifier = XGBClassifier(random_state=2022,
-                                        objective='binary:logitraw',
+                                        objective='binary:logistic',
                                         booster='gbtree',
                                         n_estimators=100,
-                                        eta=0.001)
+                                        colsample_bytree=0.5,
+                                        subsample=0.5,
+                                        # eta=0.001
+                                        )
         self.param_grid = {
-            # 'classifier__booster': ['gbtree', 'gblinear', 'dart'],
-            # 'classifier__eta': [0.1, 0.2, 0.3],
-            'classifier__gamma': [0.00025, 0.0005, 0.001, 0.002],
+            'classifier__booster': ['gbtree', 'gblinear', 'dart'],
+            'classifier__eta': [0.0001, 0.001, 0.1],
+            'classifier__n_estimators': [50, 75, 100, 125, 150],
+            # 'classifier__colsample_bytree': [0.2, 0.3, 0.4, 0.5, 0.6],
+            'classifier__gamma': [0.00025, 0.0005, 0.001],#, 0.001, 0.002],
             'classifier__max_depth': [5, 6, 7, 8],
         }
 
@@ -94,15 +102,19 @@ if __name__ == '__main__':
     feature_transform = make_feature_union()
 
     pipeline = make_pipeline(model.classifier, feature_transform)
-    search = GridSearchCV(pipeline, param_grid=model.param_grid, scoring='f1_weighted', refit=True, verbose=1, cv=10, n_jobs=4)
+    search = GridSearchCV(pipeline, param_grid=model.param_grid, scoring='f1_weighted',
+                          refit=True, verbose=1, cv=10, n_jobs=4)
+
     search.fit(data.X_train, data.y_train)
+    # summarize results
+    pd.DataFrame.from_dict(search.cv_results_).to_csv(os.path.join('../..', 'data', 'cv_results_.csv'))
 
     print(search.best_params_)
     # summarize
     print('Mean Accuracy: %.3f' % search.best_score_)
     print('Config: %s' % search.best_params_)
 
-    onnx_file_name = 'XGBClassifier_DecisionTreeClassifier'
+    onnx_file_name = 'XGBClassifier_KNeighborsClassifier'
 
     roc_curve_data = RocCurve(search, data, onnx_file_name)
 

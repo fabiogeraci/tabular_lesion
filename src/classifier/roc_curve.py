@@ -18,12 +18,12 @@ class RocCurve:
         self.initialize()
 
     def initialize(self):
-        fpr_lr_train, tpr_lr_train, roc_auc_lr_train = self.generate_score(self.data.X_train, self.data.y_train)
+        # fpr_lr_train, tpr_lr_train, roc_auc_lr_train = self.generate_score(self.data.X_train, self.data.y_train)
         fpr_lr_test, tpr_lr_test, roc_auc_lr_test = self.generate_score(self.data.X_test, self.data.y_test.values.ravel())
 
-        self.write_columns_to_csv(roc_auc_lr_train, roc_auc_lr_test)
+        self.write_columns_to_csv(roc_auc_lr_test)
 
-        self.plotly_roc_curve(fpr_lr_train, tpr_lr_train, roc_auc_lr_train, fpr_lr_test, tpr_lr_test, roc_auc_lr_test, self.classifier_name)
+        self.plotly_roc_curve(fpr_lr_test, tpr_lr_test, roc_auc_lr_test, self.classifier_name)
 
     def generate_score(self, x_set, y_set):
         """
@@ -39,40 +39,35 @@ class RocCurve:
 
         return fpr_lr, tpr_lr, roc_auc_lr
 
-    def write_columns_to_csv(self, roc_auc_train: float, roc_auc_test: float):
+    def write_columns_to_csv(self, roc_auc_test: float):
         """
         Writes out the Selected features in csv format
-        :param roc_auc_train: ROC accuracy for Training set
+
         :param roc_auc_test: ROC accuracy for Test set
         """
 
         df = pd.DataFrame(self.data.X_train.columns, columns=['Feature'])
-        self.test_scores = f'{roc_auc_train:.3f}_{roc_auc_test:.3f}'
+        self.test_scores = f'{roc_auc_test:.3f}'
         df.to_csv(f'../../results/{self.classifier_name}_selected_features_{self.test_scores}_{time_stamp}.csv', index=False)
 
     @staticmethod
-    def plotly_roc_curve(fpr_lr_train: float, tpr_lr_train: float, roc_auc_lr_train: float,
-                         fpr_lr_test: float, tpr_lr_test: float, roc_auc_lr_test: float, classifier_name: str):
+    def plotly_roc_curve(fpr_lr_test: float, tpr_lr_test: float, roc_auc_lr_test: float, classifier_name: str):
         """
         Plots and save the plot as a png of the combined ROC curve Train/Test
-        :param fpr_lr_train:
-        :param tpr_lr_train:
-        :param roc_auc_lr_train:
         :param fpr_lr_test:
         :param tpr_lr_test:
         :param roc_auc_lr_test:
         :param classifier_name:
         """
-        roc = {'train': [fpr_lr_train, tpr_lr_train, roc_auc_lr_train],
-               'test': [fpr_lr_test, tpr_lr_test, roc_auc_lr_test]}
+        roc = {'test': [fpr_lr_test, tpr_lr_test, roc_auc_lr_test]}
 
         fig = go.Figure()
         fig.add_shape(
             type='line', line=dict(dash='dash'),
             x0=0, x1=1, y0=0, y1=1
         )
-        name = f"ROC Train (AUC={roc['train'][2]:.3f})"
-        fig.add_trace(go.Scatter(x=roc['train'][0], y=roc['train'][1], name=name, mode='lines'))
+        # name = f"ROC Train (AUC={roc['train'][2]:.3f})"
+        # fig.add_trace(go.Scatter(x=roc['train'][0], y=roc['train'][1], name=name, mode='lines'))
 
         name = f"ROC Test (AUC={roc['test'][2]:.3f})"
         fig.add_trace(go.Scatter(x=roc['test'][0], y=roc['test'][1], name=name, mode='lines'))

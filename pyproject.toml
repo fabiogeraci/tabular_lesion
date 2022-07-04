@@ -3,13 +3,10 @@ requires = ["setuptools>=42.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [tool.pytest.ini_options]
-addopts = "--cov=classifier"
-pythonpath = [
-  "."
-]
-testpaths = [
-    "tests",
-]
+addopts = "--cov=classifier --cov-report=term-missing --no-cov-on-fail"#"--cov=classifier"
+
+pythonpath = ["."]
+testpaths = ["tests",]
 
 [tool.mypy]
 mypy_path = "src"
