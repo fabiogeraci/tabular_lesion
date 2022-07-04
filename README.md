@@ -94,3 +94,7 @@ python gaussiannb_classification.py
 ![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)
 
 ![Tests](https://github.com/fabiogeraci/tabular_lesion/actions/workflows/tests.yml/badge.svg)
+
+![Keras](https://raw.githubusercontent.com/valohai/ml-logos/master/keras-text.svg)
+
+![Weights&Biases](https://img.shields.io/badge/Weights_&_Biases-FFBE00?style=for-the-badge&logo=WeightsAndBiases&logoColor=white)
