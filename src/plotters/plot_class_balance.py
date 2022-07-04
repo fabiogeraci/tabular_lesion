@@ -1,5 +1,5 @@
 import pandas as pd
-from classifier.dataset import DataSet
+from helpers.dataset import DataSet
 import plotly.express as px
 
 

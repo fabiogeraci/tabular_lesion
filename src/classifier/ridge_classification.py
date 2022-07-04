@@ -5,16 +5,15 @@ import sklearn
 
 from sklearn.preprocessing import MaxAbsScaler
 from sklearn.model_selection import GridSearchCV
-from sklearn.linear_model import LogisticRegression, RidgeClassifier
+from sklearn.linear_model import RidgeClassifier
 from sklearn.pipeline import Pipeline, FeatureUnion
 from sklearn.neighbors import KNeighborsClassifier
 
-from dataset import DataSet
-from variance import DataVariance
-from model_save import SklearnModelOnnx
+from helpers.dataset import DataSet
+from helpers.variance import DataVariance
+from helpers.model_save import SklearnModelOnnx
 
 from yellowbrick.classifier import ROCAUC
-from plotters.plot_class_balance import plot_class_balance
 
 import warnings
 warnings.filterwarnings('ignore')

@@ -1,7 +1,7 @@
 # Specific Import for Test
 from pytest import mark
 
-from classifier.dataset import DataSet
+from helpers.dataset import DataSet
 
 
 @mark.usefixtures("get_dataset")

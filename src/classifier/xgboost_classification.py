@@ -2,20 +2,19 @@ import os
 
 import pandas as pd
 import sklearn
-from sklearn.preprocessing import MaxAbsScaler, QuantileTransformer
+from sklearn.preprocessing import MaxAbsScaler
 from sklearn.model_selection import GridSearchCV
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.tree import DecisionTreeClassifier
-from skopt import BayesSearchCV
 
-from xgboost import XGBClassifier, XGBRFClassifier
+from xgboost import XGBClassifier
 
 from sklearn.pipeline import Pipeline, FeatureUnion
 
-from dataset import DataSet
-from variance import DataVariance
-from roc_curve import RocCurve
-from model_save import XgboostModelToOnnx
+from helpers.dataset import DataSet
+from helpers.variance import DataVariance
+from helpers.roc_curve import RocCurve
+from helpers.validation import ModelValidation
+from helpers.model_save import XgboostModelToOnnx
 
 # from plotters.plot_class_balance import plot_class_balance
 
@@ -106,8 +105,9 @@ if __name__ == '__main__':
                           refit=True, verbose=1, cv=10, n_jobs=4)
 
     search.fit(data.X_train, data.y_train)
-    # summarize results
-    pd.DataFrame.from_dict(search.cv_results_).to_csv(os.path.join('../..', 'data', 'cv_results_.csv'))
+
+    # validation best estimator and pipeline
+    ModelValidation(search.best_estimator_, data)
 
     print(search.best_params_)
     # summarize

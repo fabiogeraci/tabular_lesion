@@ -3,14 +3,13 @@ import os
 import sklearn
 from sklearn.preprocessing import MaxAbsScaler
 from sklearn.model_selection import GridSearchCV
-from sklearn.linear_model import LogisticRegression, PassiveAggressiveClassifier, Perceptron, RidgeClassifier, SGDClassifier, SGDOneClassSVM
 from sklearn.pipeline import Pipeline, FeatureUnion
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.naive_bayes import GaussianNB
-from dataset import DataSet
-from variance import DataVariance
-from roc_curve import RocCurve
-from model_save import SklearnModelOnnx, ModelSave
+from helpers.dataset import DataSet
+from helpers.variance import DataVariance
+from helpers.roc_curve import RocCurve
+from helpers.model_save import SklearnModelOnnx, ModelSave
 
 # from plotters.plot_class_balance import plot_class_balance
 
