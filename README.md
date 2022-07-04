@@ -133,6 +133,14 @@ python gaussiannb_classification.py
       <img align="center" src="https://img.shields.io/badge/Amazon_AWS-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white" height="35" style="max-width: 100%;">
 </p>
 
+## OS
+<p align="left" dir="auto">
+      <img align="center" src="https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white" height="35" style="max-width: 100%">
+      &nbsp;
+      <img align="center" src="https://img.shields.io/badge/mac%20os-000000?style=for-the-badge&logo=apple&logoColor=white" height="35" style="max-width: 100%;">
+      &nbsp;
+      <img align="center" src="https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white" height="35" style="max-width: 100%;">
+</p>
 
 ## Software Engineering
 <p align="left" dir="auto">
@@ -142,7 +150,7 @@ python gaussiannb_classification.py
       &nbsp;
       <img align="center" src="https://camo.githubusercontent.com/d9f06d243f246d645f89946ea6b0539841c070d849a1fdd7acdab235cf794236/68747470733a2f2f73332d75732d776573742d312e616d617a6f6e6177732e636f6d2f756d6272656c6c612d626c6f672d75706c6f6164732f77702d636f6e74656e742f75706c6f6164732f323031362f30332f646f636b65722d6c6f676f2e6a7067" height="35" data-canonical-src="https://s3-us-west-1.amazonaws.com/umbrella-blog-uploads/wp-content/uploads/2016/03/docker-logo.jpg" height="35" style="max-width: 100%;">
       &nbsp;
-      <img align="center" src="https://img.shields.io/badge/PyCharm-000000.svg?&style=for-the-badge&logo=PyCharm&logoColor=white"" height="35" style="max-width: 100%;">
+      <img align="center" src="https://img.shields.io/badge/PyCharm-000000.svg?&style=for-the-badge&logo=PyCharm&logoColor=white" height="35" style="max-width: 100%;">
       &nbsp;
       <img align="center" src="https://img.shields.io/badge/Colab-F9AB00?style=for-the-badge&logo=googlecolab&color=525252" height="35" style="max-width: 100%;">
 </p>
