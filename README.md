@@ -98,9 +98,10 @@ python gaussiannb_classification.py
 # <img height="20" width="20" src="https://github.githubassets.com/images/icons/emoji/unicode/1f6e0.png">Skills
 
 ## Deep Learning Frameworks
-<img align="center" src="https://camo.githubusercontent.com/e0af84521a474956fc781af46a392cede22b59034415df6d4a876ce55c7f2696/68747470733a2f2f65787465726e616c2d636f6e74656e742e6475636b6475636b676f2e636f6d2f69752f3f753d687474707325334125324625324669312e77702e636f6d25324664617461736369656e63657765656b2e6f726725324677702d636f6e74656e7425324675706c6f616473253246323031392532463132253246666173742e61695f2e6a706725334673736c2533443126663d31266e6f66623d31" height="40" data-canonical-src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi1.wp.com%2Fdatascienceweek.org%2Fwp-content%2Fuploads%2F2019%2F12%2Ffast.ai_.jpg%3Fssl%3D1&amp;f=1&amp;nofb=1" style="max-width: 100%;">
-<img align="center" src="https://raw.githubusercontent.com/valohai/ml-logos/master/keras-text.svg" height="35" style="max-width: 100%;">
-<img align="center" src="https://raw.githubusercontent.com/valohai/ml-logos/master/pytorch.svg" height="35" style="max-width: 100%;">
+|<img align="center" src="https://camo.githubusercontent.com/e0af84521a474956fc781af46a392cede22b59034415df6d4a876ce55c7f2696/68747470733a2f2f65787465726e616c2d636f6e74656e742e6475636b6475636b676f2e636f6d2f69752f3f753d687474707325334125324625324669312e77702e636f6d25324664617461736369656e63657765656b2e6f726725324677702d636f6e74656e7425324675706c6f616473253246323031392532463132253246666173742e61695f2e6a706725334673736c2533443126663d31266e6f66623d31" height="40" data-canonical-src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi1.wp.com%2Fdatascienceweek.org%2Fwp-content%2Fuploads%2F2019%2F12%2Ffast.ai_.jpg%3Fssl%3D1&amp;f=1&amp;nofb=1" style="max-width: 100%;">|<img align="center" src="https://raw.githubusercontent.com/valohai/ml-logos/master/keras-text.svg" height="35" style="max-width: 100%;">|<img align="center" src="https://raw.githubusercontent.com/valohai/ml-logos/master/pytorch.svg" height="35" style="max-width: 100%;">|
+
+
+
 
 ## Hyperparameter Optimization
 <img align="center" src="https://raw.githubusercontent.com/optuna/optuna/master/docs/image/optuna-logo.png" height="35" style="max-width: 100%;">
