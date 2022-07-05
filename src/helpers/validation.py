@@ -3,7 +3,7 @@ import pandas as pd
 import time
 
 from sklearn.model_selection import cross_validate, ShuffleSplit
-from variance import DataVariance
+from helpers.variance import DataVariance
 
 time_stamp = time.strftime("%Y%m%d-%H%M%S")
 

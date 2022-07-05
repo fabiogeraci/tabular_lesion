@@ -13,7 +13,7 @@ import onnxruntime as rt
 from onnxmltools.convert import convert_xgboost as convert_xgboost_booster
 from skl2onnx.common.data_types import FloatTensorType
 
-from variance import DataVariance
+from helpers.variance import DataVariance
 
 
 class ModelSave:

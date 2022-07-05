@@ -7,7 +7,7 @@ from sklearn.preprocessing import MaxAbsScaler
 from sklearn.feature_selection import VarianceThreshold
 from imblearn.over_sampling import ADASYN, SMOTE
 import sklearn
-from feature_select import Selector
+from helpers.feature_select import Selector
 
 warnings.filterwarnings('ignore')
 

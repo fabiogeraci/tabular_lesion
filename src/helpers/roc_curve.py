@@ -2,7 +2,7 @@ import sklearn
 import pandas as pd
 import time
 
-from variance import DataVariance
+from helpers.variance import DataVariance
 from sklearn.metrics import roc_curve, auc
 import plotly.graph_objects as go
 
@@ -80,5 +80,5 @@ class RocCurve:
             xaxis=dict(constrain='domain'),
             width=700, height=500
         )
-        fig.write_image(f"../../images/{classifier_name}_ROC_{roc['train'][2]:.3f}_{roc['test'][2]:.3f}_{time_stamp}.png")
+        fig.write_image(f"../../images/{classifier_name}_ROC_{roc['test'][2]:.3f}_{time_stamp}.png")
         # fig.show(block=True)
