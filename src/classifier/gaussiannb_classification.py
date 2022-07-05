@@ -1,4 +1,5 @@
 import os
+import time
 
 import sklearn
 from sklearn.preprocessing import MaxAbsScaler
@@ -16,6 +17,7 @@ from helpers.model_save import SklearnModelOnnx, ModelSave
 import warnings
 warnings.filterwarnings('ignore')
 print(sklearn.__version__)
+time_stamp = time.strftime("%Y%m%d-%H%M%S")
 
 
 class Model:
@@ -94,6 +96,8 @@ if __name__ == '__main__':
 
     roc_curve_data = RocCurve(search, data, 'GaussianNB')
 
-    model_save = ModelSave(search.best_estimator_, data, f'GaussianNB{roc_curve_data.test_scores}')
+    best_model = model.classifier(**search.best_params_)
+
+    model_save = ModelSave(best_model, data, f'GaussianNB_{time_stamp}')
 
     SklearnModelOnnx.save_model(model_save)

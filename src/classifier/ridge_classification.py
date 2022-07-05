@@ -11,7 +11,7 @@ from sklearn.neighbors import KNeighborsClassifier
 
 from helpers.dataset import DataSet
 from helpers.variance import DataVariance
-from helpers.model_save import SklearnModelOnnx
+from helpers.model_save import SklearnModelOnnx, ModelSave
 
 from yellowbrick.classifier import ROCAUC
 
@@ -109,4 +109,10 @@ if __name__ == '__main__':
 
     visualizer.show(outpath=f"../../images/RidgeClassifier_{time_stamp}.png")  # Finalize and render the figure
 
-    SklearnModelOnnx(search.best_estimator_, data, f'RidgeClassifier_{time_stamp}')
+    best_model = model.classifier(**search.best_params_)
+
+    model_save = ModelSave(best_model, data, f'RidgeClassifier_{time_stamp}')
+
+    SklearnModelOnnx.save_model(model_save)
+
+

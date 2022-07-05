@@ -18,7 +18,7 @@ class ModelValidation:
 
     def best_estimator_cv_scores(self):
 
-        cv_results = cross_validate(self.pipe.bebest_estimator_, self.data.X_train, self.data.y_train,
+        cv_results = cross_validate(self.pipe.best_estimator_, self.data.X_train, self.data.y_train,
                                     cv=self.cv, scoring="neg_mean_absolute_error",
                                     return_train_score=True, n_jobs=2)
 

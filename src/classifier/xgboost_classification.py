@@ -38,8 +38,8 @@ class Model:
                                         objective='binary:logistic',
                                         booster='gbtree',
                                         n_estimators=100,
-                                        colsample_bytree=0.5,
-                                        subsample=0.5,
+                                        # colsample_bytree=0.5,
+                                        # subsample=0.5,
                                         # eta=0.001
                                         )
         self.param_grid = {
