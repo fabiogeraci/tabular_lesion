@@ -96,8 +96,6 @@ if __name__ == '__main__':
 
     roc_curve_data = RocCurve(search, data, 'GaussianNB')
 
-    best_model = model.classifier(**search.best_params_)
-
-    model_save = ModelSave(best_model, data, f'GaussianNB_{time_stamp}')
+    model_save = ModelSave(search.best_estimator_, data, f'GaussianNB_{time_stamp}')
 
     SklearnModelOnnx.save_model(model_save)

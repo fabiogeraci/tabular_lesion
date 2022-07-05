@@ -43,12 +43,13 @@ class Model:
                                         # eta=0.001
                                         )
         self.param_grid = {
-            'classifier__booster': ['gbtree', 'gblinear', 'dart'],
-            # 'classifier__eta': [0.0001, 0.001, 0.1],
-            # 'classifier__n_estimators': [50, 75, 100, 125, 150],
-            # # 'classifier__colsample_bytree': [0.2, 0.3, 0.4, 0.5, 0.6],
-            # 'classifier__gamma': [0.00025, 0.0005, 0.001],#, 0.001, 0.002],
-            # 'classifier__max_depth': [5, 6, 7, 8]
+            'classifier__booster': ['gblinear', 'dart', 'gbtree'],
+            'classifier__eta': [0.0001, 0.001, 0.1],
+            'classifier__n_estimators': [50, 75, 100, 125, 150],
+            'classifier__colsample_bytree': [0.2, 0.3, 0.4, 0.5, 0.6],
+            'classifier__subsample': [0.2, 0.3, 0.4, 0.5, 0.6],
+            'classifier__gamma': [0.00025, 0.0005, 0.001],#, 0.001, 0.002],
+            'classifier__max_depth': [5, 6, 7, 8]
         }
 
 
@@ -93,8 +94,7 @@ if __name__ == '__main__':
     assert all_set.X_train.shape[0] == all_set.y_train.shape[0]
     assert all_set.X_test.shape[0] == all_set.y_test.shape[0]
 
-    variance_flag = True
-    data = DataVariance(all_set, variance_flag, KNeighborsClassifier(n_neighbors=25))
+    data = DataVariance(all_set)#, True, KNeighborsClassifier(n_neighbors=25))
 
     model = Model()
 
@@ -107,7 +107,7 @@ if __name__ == '__main__':
     search.fit(data.X_train, data.y_train)
 
     # validation best estimator and pipeline
-    ModelValidation(search.best_estimator_, data)
+    ModelValidation(search, data)
 
     print(search.best_params_)
     # summarize
@@ -118,7 +118,5 @@ if __name__ == '__main__':
 
     roc_curve_data = RocCurve(search, data, onnx_file_name)
 
-    best_model = model.classifier(**search.best_params_)
-
-    XgboostModelToOnnx(best_model, data, f'{onnx_file_name}_{roc_curve_data.test_scores}')
+    XgboostModelToOnnx(search.best_estimator_, data, f'{onnx_file_name}_{roc_curve_data.test_scores}')
 

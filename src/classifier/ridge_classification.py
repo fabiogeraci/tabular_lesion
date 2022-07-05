@@ -109,9 +109,7 @@ if __name__ == '__main__':
 
     visualizer.show(outpath=f"../../images/RidgeClassifier_{time_stamp}.png")  # Finalize and render the figure
 
-    best_model = model.classifier(**search.best_params_)
-
-    model_save = ModelSave(best_model, data, f'RidgeClassifier_{time_stamp}')
+    model_save = ModelSave(search.best_estimator_, data, f'RidgeClassifier_{time_stamp}')
 
     SklearnModelOnnx.save_model(model_save)
 
