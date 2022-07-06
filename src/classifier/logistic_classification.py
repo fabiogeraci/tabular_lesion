@@ -105,6 +105,6 @@ if __name__ == '__main__':
 
     roc_curve_data = RocCurve(search, data, 'LogisticRegression')
 
-    model_save = ModelSave(search.best_params_, data, f'LogisticRegression_{time_stamp}')
+    model_save = ModelSave(search.best_estimator_, data, f'LogisticRegression_{time_stamp}')
 
     SklearnModelOnnx.save_model(model_save)
