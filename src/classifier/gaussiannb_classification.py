@@ -22,53 +22,54 @@ time_stamp = time.strftime("%Y%m%d-%H%M%S")
 
 class Model:
     def __init__(self):
-        self.classifier = None
-        self.param_grid = None
-        self.make_classifier()
+        self.classifier = self.initiate_classifier()
+        self.param_grid = self.set_param_grid()
+        self.feature_transform = self.feature_union
+        self.pipeline = self.make_pipeline()
 
-    def make_classifier(self):
+    @staticmethod
+    def initiate_classifier():
         """
 
         :return:
         """
-        self.classifier = GaussianNB()
-        self.param_grid = {
+        return GaussianNB()
+
+    @staticmethod
+    def set_param_grid():
+        return {
             'classifier__var_smoothing': [1e-11, 1e-10, 1e-9]
             }
 
+    @property
+    def feature_union(self):
+        """
 
-def make_feature_union():
-    """
+        :return:
+        """
+        # transforms for the feature union
+        transforms = list()
+        transforms.append(('maxbbs', MaxAbsScaler()))
+        # transforms.append(('mms', MinMaxScaler()))
+        # transforms.append(('ss', StandardScaler()))
+        # transforms.append(('rs', RobustScaler()))
+        # transforms.append(('qt', QuantileTransformer(n_quantiles=100, output_distribution='normal')))
+        # transforms.append(('norm', Normalizer()))
+        # transforms.append(('pt', PowerTransformer()))
+        # transforms.append(('st', SplineTransformer()))
+        return FeatureUnion(transforms)
 
-    :return:
-    """
-    # transforms for the feature union
-    transforms = list()
-    transforms.append(('maxbbs', MaxAbsScaler()))
-    # transforms.append(('mms', MinMaxScaler()))
-    # transforms.append(('ss', StandardScaler()))
-    # transforms.append(('rs', RobustScaler()))
-    # transforms.append(('qt', QuantileTransformer(n_quantiles=100, output_distribution='normal')))
-    # transforms.append(('norm', Normalizer()))
-    # transforms.append(('pt', PowerTransformer()))
-    # transforms.append(('st', SplineTransformer()))
-    transform_feature = FeatureUnion(transforms)
-    return transform_feature
+    def make_pipeline(self):
+        """
 
+        :return:
+        """
+        # define the pipeline
+        steps = list()
+        steps.append(('scaler', self.feature_transform))
+        steps.append(('classifier', self.classifier))
 
-def make_pipeline(a_model, a_feature_transform):
-    """
-
-    :param a_model:
-    :param a_feature_transform:
-    :return:
-    """
-    # define the pipeline
-    steps = list()
-    steps.append(('scaler', a_feature_transform))
-    steps.append(('classifier', a_model))
-
-    return Pipeline(steps=steps)
+        return Pipeline(steps=steps)
 
 
 if __name__ == '__main__':
@@ -83,10 +84,7 @@ if __name__ == '__main__':
 
     model = Model()
 
-    feature_transform = make_feature_union()
-
-    pipeline = make_pipeline(model.classifier, feature_transform)
-    search = GridSearchCV(pipeline, param_grid=model.param_grid, refit=True, verbose=1, cv=10, n_jobs=4)
+    search = GridSearchCV(model.pipeline, param_grid=model.param_grid, refit=True, verbose=1, cv=10, n_jobs=4)
     search.fit(data.X_train, data.y_train)
 
     print(search.best_params_)
